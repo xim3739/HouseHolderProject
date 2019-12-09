@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/action_1"
+        android:enabled="true"
+        android:icon="@drawable/month1"
+        android:title="Month"
+        android:checked="true"/>
+    <item
+        android:id="@+id/action_2"
+        android:enabled="true"
+        android:icon="@drawable/week1"
+        android:title="Week" />
+    <item
+        android:id="@+id/action_3"
+        android:enabled="true"
+        android:icon="@drawable/day1"
+        android:title="Days" />
+    <item
+        android:id="@+id/action_4"
+        android:enabled="true"
+        android:icon="@drawable/setting1"
+        android:title="Setting" />
+    />
 </menu>

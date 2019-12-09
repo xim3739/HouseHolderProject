@@ -1,4 +1,4 @@
-package com.example.householderproject.calendar;
+package com.example.householderproject.model;
 
 public class MonthItem {
 
