@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,6 +66,7 @@
 
         <EditText
             android:id="@+id/edtLittle"
+            android:hint="금액을 입력하세요."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -74,6 +74,14 @@
             android:layout_marginRight="10dp"
             android:phoneNumber="true"/>
 
+        <EditText
+            android:id="@+id/editTextLocation"
+            android:hint="사용한 곳의 상호 명을 적어주세요."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="10dp" />
 
     </LinearLayout>
 

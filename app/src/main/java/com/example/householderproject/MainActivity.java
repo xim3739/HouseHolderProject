@@ -2,20 +2,36 @@ package com.example.householderproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.example.householderproject.fragment.Fragment1;
+import com.example.householderproject.util.DBHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.security.MessageDigest;
+
 public class MainActivity extends AppCompatActivity {
+
+    private static final int SMS_RECEIVE_PERMISSION = 1;
 
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
@@ -38,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
 //        SQLiteDatabase sqLiteOpenHelper = dbHelper.getReadableDatabase();
 //        dbHelper.onUpgrade(sqLiteOpenHelper, 1, 2);
 
+//        getHash();
+
+        permissionCheckMethod(this);
+
         myContext = MainActivity.this;
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
@@ -48,6 +68,21 @@ public class MainActivity extends AppCompatActivity {
 //        fragment3 = new Fragment3();
 //        fragment4 = new Fragment4();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Intent intent = getIntent();
+
+        if(intent != null) {
+            NotificationManagerCompat.from(this).cancel(0);
+        }
+
+
+
+//        NotificationManagerCompat.from(this).cancel(0);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -71,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         bottomNavigationView.setSelectedItemId(R.id.action_1);
-
-
     }
 
     //화면 전환
@@ -100,5 +133,75 @@ public class MainActivity extends AppCompatActivity {
 //                break;
         }
     }
+
+    private void permissionCheckMethod(MainActivity context) {
+        int permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_SMS);
+
+        if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
+
+            Toast.makeText(context, "Already SMS Accept", Toast.LENGTH_LONG).show();
+
+        }else {
+            
+            Toast.makeText(context, "No Sms Accept", Toast.LENGTH_LONG).show();
+            
+            if(ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.RECEIVE_SMS)) {
+                
+                Toast.makeText(context, "Need SMS Accept", Toast.LENGTH_LONG).show();
+                ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.RECEIVE_SMS}, SMS_RECEIVE_PERMISSION);
+                
+            } else {
+
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, SMS_RECEIVE_PERMISSION);
+
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+
+            case SMS_RECEIVE_PERMISSION :
+
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(getApplicationContext(), "SMS ACCEPT", Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "SMS NOT ACCEPT", Toast.LENGTH_LONG).show();
+
+                }
+
+                break;
+
+        }
+
+    }
+
+//    private void getHash() {
+//        try {
+//
+//            PackageInfo packageInfoCompat = getPackageManager().getPackageInfo("com.example.householderproject", PackageManager.GET_SIGNATURES);
+//
+//            for(Signature signature : packageInfoCompat.signatures) {
+//
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.e("hash", "key : " + Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//
+//            }
+//
+//        } catch (Exception e){
+//
+//            e.printStackTrace();
+//
+//        }
+//    }
 
 }
