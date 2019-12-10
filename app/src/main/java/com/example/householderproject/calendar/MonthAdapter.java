@@ -20,9 +20,6 @@ import com.example.householderproject.util.DBHelper;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-//      의미 생각
-//      selectedPosition = -1;
-
 public class MonthAdapter extends BaseAdapter {
 
     public Context mContext;

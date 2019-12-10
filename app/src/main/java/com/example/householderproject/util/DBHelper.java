@@ -14,7 +14,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE calenderTBL(id int PRIMARY KEY, date CHAR(20), credit CHAR(10), detail CHAR(10), category CHAR(20), location CHAR(30));");
+        db.execSQL("CREATE TABLE calenderTBL(id INTEGER PRIMARY KEY AUTOINCREMENT, date CHAR(20), credit CHAR(10), detail CHAR(10), category CHAR(20), location CHAR(30));");
     }
 
     @Override
