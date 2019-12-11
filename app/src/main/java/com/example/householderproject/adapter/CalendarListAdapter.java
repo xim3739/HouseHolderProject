@@ -68,9 +68,13 @@ public class CalendarListAdapter extends BaseAdapter {
         }*/
 
         if(list.get(position).getDetail().equals("수입")){
+
             listImgView.setImageResource(R.mipmap.income);
+
         }else {
+
             listImgView.setImageResource(R.mipmap.expenditure);
+
         }
 
         listTextViewRdo.setText(list.get(position).getDetail());
@@ -78,7 +82,6 @@ public class CalendarListAdapter extends BaseAdapter {
         listTextViewEdt.setText(list.get(position).getCredit());
 
         listTextViewCombo.setTag(position);
-
 
         return convertView;
     }

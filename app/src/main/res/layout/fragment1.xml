@@ -149,6 +149,10 @@
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@color/customGreen"
+            android:scrollbars="vertical"/>
     </LinearLayout>
 </LinearLayout>

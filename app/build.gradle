@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    splits{
+        abi{
+            enable true
+            reset()
+            include 'x86', 'x86_64', 'armebi-v7a', 'armeabi'
+            universalApk false
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.householderproject"
@@ -20,12 +28,14 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation files('libs/libDaumMapAndroid.jar')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.github.PhilJay:MpAndroidChart:v3.0.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation 'com.google.android.material:material:1.0.0'
 }

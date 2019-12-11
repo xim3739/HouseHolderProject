@@ -24,7 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.householderproject.R;
 import com.example.householderproject.adapter.CalendarListAdapter;
-import com.example.householderproject.calendar.MonthAdapter;
+import com.example.householderproject.adapter.MonthAdapter;
 import com.example.householderproject.model.CalendarListData;
 import com.example.householderproject.model.MonthItem;
 import com.example.householderproject.util.DBHelper;
@@ -144,7 +144,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
+    public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
 
         MonthItem curItem1= (MonthItem) monthAdapter.getItem(position);
 
@@ -177,6 +177,8 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
         }
 
+        selectFromDatabase(curItem1, position);
+
         View dialogView = View.inflate(view.getContext(), R.layout.calendar_input_data_dialog, null);
 
         final EditText editTextCredit = dialogView.findViewById(R.id.edtLittle);
@@ -206,6 +208,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
         dialog.setView(dialogView);
         dialog.setPositiveButton("저장", new DialogInterface.OnClickListener() {
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -227,17 +230,21 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                     Toast.makeText(getContext(), "선택하지 않은 항목이 있습니다", Toast.LENGTH_LONG).show();
 
                 }
-                //변한 값을 알려주고 적용시킨다
+
                 calendarListAdapter.notifyDataSetChanged();
 
             }
 
         });
 
+
         dialog.setNegativeButton("취소", null);
         dialog.show();
         return true;
 
+    }
+
+    private void selectFromDatabase(MonthItem curItem1, int position) {
     }
 
     // 월 표시 텍스트 설정
@@ -258,7 +265,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
         sqlDB.close();
 
-        calendarList.add(new CalendarListData(radioButtonMinus, spinnerFilter, editTextCredit));
+        calendarList.add(new CalendarListData(editTextCredit, radioButtonMinus, spinnerFilter));
         monthAdapter.notifyDataSetChanged();
 
         Toast.makeText(context, str + "(으)로 " + editTextCredit + "원의 지출이 발생하였습니다", Toast.LENGTH_LONG).show();
@@ -275,7 +282,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
         sqlDB.close();
 
-        calendarList.add(new CalendarListData(radioButtonPlus, spinnerFilter, editTextCredit));
+        calendarList.add(new CalendarListData(editTextCredit, radioButtonPlus, spinnerFilter));
         monthAdapter.notifyDataSetChanged();
 
         Toast.makeText(context, str + "(으)로 " + editTextCredit + "원의 수입이 발생하였습니다", Toast.LENGTH_LONG).show();

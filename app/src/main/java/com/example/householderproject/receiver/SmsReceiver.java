@@ -56,7 +56,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
         if(!(location.equals("") && credit.equals(""))) {
 
-            DBHelper dbHelper = new DBHelper(myContext);
+            DBHelper dbHelper = new DBHelper(context);
             SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
             sqLiteDatabase.execSQL("INSERT INTO calenderTBL VALUES (null, '" + receivedDate + "' , '" + credit + "' , '지출', '카드', '" + location +"');");
 
@@ -71,6 +71,10 @@ public class SmsReceiver extends BroadcastReceiver {
         //TODO
 
         Intent sendIntent = new Intent(context, MainActivity.class);
+        sendIntent.putExtra("date", receivedDate);
+        sendIntent.putExtra("credit", credit);
+        sendIntent.putExtra("location", location);
+
         sendIntent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
         PendingIntent pendingIntent = TaskStackBuilder.create(context).addNextIntentWithParentStack(sendIntent).getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -87,7 +91,7 @@ public class SmsReceiver extends BroadcastReceiver {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_HIGH;
 
-            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_ID, "NOTIFICATION_CHANNEL_NAME", importance);
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_ID, "NOTIFICATION_CHNNEL_NAME", importance);
 
             assert notificationManager != null;
             notificationManager.createNotificationChannel(notificationChannel);

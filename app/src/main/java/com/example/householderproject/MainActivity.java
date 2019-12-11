@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.householderproject.fragment.Fragment1;
+import com.example.householderproject.fragment.Fragment3;
 import com.example.householderproject.util.DBHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentTransaction fragmentTransaction;
     private Fragment1 fragment1;
 //    private Fragment2 fragment2;
-//    private Fragment3 fragment3;
+    private Fragment3 fragment3;
 //    private Fragment4 fragment4;
 
     public static Context myContext;
@@ -50,9 +51,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        DBHelper dbHelper = new DBHelper(this);
-//        SQLiteDatabase sqLiteOpenHelper = dbHelper.getReadableDatabase();
-//        dbHelper.onUpgrade(sqLiteOpenHelper, 1, 2);
+/*        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase sqLiteOpenHelper = dbHelper.getReadableDatabase();
+        dbHelper.onUpgrade(sqLiteOpenHelper, 1, 2);*/
 
 //        getHash();
 
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         frameLayout = findViewById(R.id.frameLayout);
         fragment1 = new Fragment1();
 //        fragment2 = new Fragment2();
-//        fragment3 = new Fragment3();
+        fragment3 = new Fragment3();
 //        fragment4 = new Fragment4();
 
     }
@@ -74,15 +75,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Intent intent = getIntent();
-
-        if(intent != null) {
-            NotificationManagerCompat.from(this).cancel(0);
-        }
-
-
-
-//        NotificationManagerCompat.from(this).cancel(0);
+        NotificationManagerCompat.from(this).cancel(0);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -94,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
 //                    case R.id.action_2: //fragmentManager2 화면 전환
 //                        setChangeFragment(1);
 //                        break;
-//                    case R.id.action_3: //fragmentManager3 화면 전환
-//                        setChangeFragment(2);
+                    case R.id.action_3: //fragmentManager3 화면 전환
+                        setChangeFragment(2);
 //                        break;
 //                    case R.id.action_4: //fragmentManager4 화면 전환
 //                        setChangeFragment(3);
@@ -123,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
 //                fragmentTransaction.replace(R.id.frameLayout, fragment2);
 //                fragmentTransaction.commit();
 //                break;
-//            case 2:
-//                fragmentTransaction.replace(R.id.frameLayout, fragment3);
-//                fragmentTransaction.commit();
-//                break;
+            case 2:
+                fragmentTransaction.replace(R.id.frameLayout, fragment3);
+                fragmentTransaction.commit();
+                break;
 //            case 3:
 //                fragmentTransaction.replace(R.id.frameLayout, fragment4);
 //                fragmentTransaction.commit();
