@@ -10,25 +10,28 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.householderproject.fragment.Fragment1;
 import com.example.householderproject.fragment.Fragment3;
-import com.example.householderproject.util.DBHelper;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+
+import android.util.Log;
+import android.util.Base64;
+import android.content.Intent;
 import java.security.MessageDigest;
+import android.content.pm.Signature;
+import android.content.pm.PackageInfo;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import com.example.householderproject.util.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
 

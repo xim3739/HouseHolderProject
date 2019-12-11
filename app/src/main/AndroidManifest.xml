@@ -29,6 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".intentview.MapViewActivity"
+            android:label="map">
+        </activity>
         
         <receiver android:name=".receiver.SmsReceiver"
             android:label="Sms"
