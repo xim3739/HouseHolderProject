@@ -33,7 +33,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
-import static com.example.householderproject.MainActivity.myContext;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
 
@@ -41,6 +40,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private int layout;
     private String location;
     private Context context;
+    private MapTask mapTask;
+
 
     public RecyclerViewAdapter(ArrayList<RecyclerViewData> list, int layout) {
 
@@ -78,76 +79,82 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Log.e("!!!", "onBindViewHolder");
 
-        /*holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
             public boolean onLongClick(View v) {
 
-                new AsyncTask<Void, Void, String>() {
-
-                    @Override
-                    protected String doInBackground(Void... voids) {
-
-                        String domain = "https://dapi.kakao.com/v2/local/search/keyword.json";
-                        Uri.Builder builder = Uri.parse(domain).buildUpon();
-
-                        builder = addCurrentLocationQueryAt(builder);
-                        builder = addSearchKeywordQueryAt(builder);
-
-                        try{
-
-                            URL requestURL = new URL(builder.build().toString());
-
-                            HttpsURLConnection connection = (HttpsURLConnection) requestURL.openConnection();
-                            connection.setRequestProperty("Authorization", "KakaoAK 14a53985a0736bc1c48a5f952eb5c6d8");
-
-                            if(connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
-
-                                InputStreamReader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
-                                BufferedReader bufferedReader = new BufferedReader(reader);
-                                StringBuffer buffer = new StringBuffer();
-
-                                String str = null;
-                                String resultString = null;
-
-                                while((str = bufferedReader.readLine()) != null) {
-                                    buffer.append(str);
-                                }
-
-                                resultString = buffer.toString();
-                                return resultString;
-
-                            } else {
-
-                                Log.e("!!!", "" + connection.getResponseCode());
-
-                            }
-
-                        }catch (IOException e) {
-
-                        }
-
-                        return null;
-
-                    }
-
-                    @Override
-                    protected void onPostExecute(String resultString) {
-                        super.onPostExecute(resultString);
-
-                        handleSearchResult(context, resultString);
-
-                    }
-
-                };
+                mapTask = new MapTask();
+                mapTask.execute();
 
                 return true;
             }
-        });*/
+        });
 
     }
 
-    /*private void handleSearchResult(Context context, String resultString) {
+    public class MapTask extends AsyncTask<Void, Void, String> {
+        String resultString = null;
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            Log.e("!!!", "doInBackground");
+
+            String domain = "https://dapi.kakao.com/v2/local/search/keyword.json";
+            Uri.Builder builder = Uri.parse(domain).buildUpon();
+
+            builder = addCurrentLocationQueryAt(builder);
+            builder = addSearchKeywordQueryAt(builder);
+
+            try{
+
+                URL requestURL = new URL(builder.build().toString());
+
+                HttpsURLConnection connection = (HttpsURLConnection) requestURL.openConnection();
+                connection.setRequestProperty("Authorization", "KakaoAK 14a53985a0736bc1c48a5f952eb5c6d8");
+
+                if(connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
+
+                    InputStreamReader reader = new InputStreamReader(connection.getInputStream(), "UTF-8");
+                    BufferedReader bufferedReader = new BufferedReader(reader);
+                    StringBuffer buffer = new StringBuffer();
+
+                    String str = null;
+                    resultString = null;
+
+                    while((str = bufferedReader.readLine()) != null) {
+                        buffer.append(str);
+                    }
+
+                    resultString = buffer.toString();
+                    return resultString;
+
+                } else {
+
+                    Log.e("!!!", "" + connection.getResponseCode());
+
+                }
+
+            }catch (IOException e) {
+                Log.e("!!!", "" + e.getMessage());
+            }
+
+            return resultString;
+
+        }
+
+        @Override
+        protected void onPostExecute(String resultString) {
+
+            super.onPostExecute(resultString);
+
+            handleSearchResult(context, resultString);
+
+        }
+
+    }
+
+    private void handleSearchResult(Context context, String resultString) {
 
         try {
 
@@ -164,9 +171,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             }
 
+            Log.e("!!!", "handleSearchResult");
+
             Intent intent = new Intent(context, MapViewActivity.class);
             intent.putExtra("locationX", locationX);
             intent.putExtra("locationY", locationY);
+            intent.putExtra("location", location);
 
             context.startActivity(intent);
 
@@ -193,7 +203,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         return builder;
 
-    }*/
+    }
 
 
     @Override
