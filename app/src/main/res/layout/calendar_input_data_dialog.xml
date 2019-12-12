@@ -27,6 +27,7 @@
             android:orientation="horizontal">
 
             <RadioGroup
+                android:layout_marginTop="13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -55,6 +56,7 @@
             android:orientation="vertical">
 
             <Spinner
+                android:layout_marginTop="10dp"
                 android:id="@+id/spinnerFilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,22 +67,24 @@
         </LinearLayout>
 
         <EditText
+            android:gravity="center"
             android:id="@+id/edtLittle"
             android:hint="금액을 입력하세요."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="70dp"
             android:layout_marginRight="10dp"
             android:phoneNumber="true"/>
 
         <EditText
+            android:gravity="center"
             android:id="@+id/editTextLocation"
             android:hint="사용한 곳의 상호 명을 적어주세요."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp" />
 
     </LinearLayout>

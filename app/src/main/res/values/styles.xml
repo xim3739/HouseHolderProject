@@ -4,7 +4,7 @@
     <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/customGreen</item>
         <item name="colorPrimaryDark">@color/customDenseGreen</item>
-        <item name="colorAccent">@color/customPink</item>
+        <item name="colorAccent">#707070</item>
     </style>
 
     <style name="textStyleItalic">

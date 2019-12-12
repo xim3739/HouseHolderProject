@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,11 @@ import com.example.householderproject.model.CalendarListData;
 import com.example.householderproject.model.MonthItem;
 import com.example.householderproject.util.DBHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import static com.example.householderproject.MainActivity.myContext;
 
@@ -42,6 +47,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     private View view;
     private String str;
     private String currentDate;
+    private boolean check;
 
     private CalendarListAdapter calendarListAdapter;
     private ArrayList<CalendarListData> calendarList = new ArrayList<>();
@@ -49,6 +55,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
     public static SQLiteDatabase sqlDB;
     public static DBHelper dbHelper;
+    public static int seleteposition;
 
     @Nullable
     @Override
@@ -63,6 +70,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
         gridViewCalendar = view.findViewById(R.id.gvCalender);
         textViewYear = view.findViewById(R.id.tvYearMonth);
+
 
         //1.어뎁터를 생성
         monthAdapter = new MonthAdapter(myContext);
@@ -82,6 +90,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         return view;
 
     }
+
 
     // 클릭 이벤트
     @Override
@@ -110,13 +119,17 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        seleteposition = position;
         MonthItem curItem = (MonthItem) monthAdapter.getItem(position);
 
-        currentDate = String.valueOf(monthAdapter.curYear)  + (monthAdapter.curMonth + 1);
+        currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1);
 
+        if(view.isSelected()){
+            view.setBackgroundResource(R.drawable.custom);
+        }else {
+            view.setBackgroundResource(0);
+        }
         if (curItem.getDayValue() != 0) {
-
             dbHelper = new DBHelper(myContext);
             sqlDB = dbHelper.getReadableDatabase();
 
@@ -146,7 +159,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
 
-        MonthItem curItem1= (MonthItem) monthAdapter.getItem(position);
+        MonthItem curItem1 = (MonthItem) monthAdapter.getItem(position);
 
         currentDate = monthAdapter.curYear + "/" + (monthAdapter.curMonth + 1);
 
@@ -218,12 +231,12 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                 if (radioButtonPlus.isChecked() && !(spinnerFilter.getSelectedItem().toString().equals("필터를 설정해 주세요")) &&
                         !(editTextCredit.getText().toString().equals(""))) {
 
-                    insertPlusDataBase(view.getContext(), currentDate, editTextCredit.getText().toString(), radioButtonPlus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
+                    insertPlusDataBase(view.getContext(), currentDate, editTextCredit.getText().toString() + " 원", radioButtonPlus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
 
                 } else if (radioButtonMinus.isChecked() && !(spinnerFilter.getSelectedItem().toString().equals("필터를 설정해 주세요")) &&
                         !(editTextCredit.getText().toString().equals(""))) {
 
-                    insertMinusDataBase(view.getContext(), currentDate, editTextCredit.getText().toString(), radioButtonMinus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
+                    insertMinusDataBase(view.getContext(), currentDate, editTextCredit.getText().toString() + " 원", radioButtonMinus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
 
                 } else {
 
@@ -254,13 +267,14 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         textViewYear.setText(yearMonth);
 
     }
+
     //DB 에 저장
     private void insertMinusDataBase(Context context, String currentDate, String editTextCredit, String radioButtonMinus, String spinnerFilter, String editTextLocation) {
 
         dbHelper = new DBHelper(context);
         sqlDB = dbHelper.getWritableDatabase();
 
-        sqlDB.execSQL("INSERT INTO calenderTBL VALUES(null, '" + currentDate + "','" + editTextCredit +"','"
+        sqlDB.execSQL("INSERT INTO calenderTBL VALUES(null, '" + currentDate + "','" + editTextCredit + "','"
                 + radioButtonMinus + "','" + spinnerFilter + "', '" + editTextLocation + "');");
 
         sqlDB.close();
@@ -271,6 +285,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         Toast.makeText(context, str + "(으)로 " + editTextCredit + "원의 지출이 발생하였습니다", Toast.LENGTH_LONG).show();
 
     }
+
     //DB 에 저장
     private void insertPlusDataBase(Context context, String currentDate, String editTextCredit, String radioButtonPlus, String spinnerFilter, String editTextLocation) {
 
@@ -278,7 +293,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         sqlDB = dbHelper.getWritableDatabase();
 
         sqlDB.execSQL("INSERT INTO calenderTBL VALUES( null, '" + currentDate + "','" + editTextCredit + "','"
-                + radioButtonPlus + "','" + spinnerFilter + "', '" + editTextLocation +"');");
+                + radioButtonPlus + "','" + spinnerFilter + "', '" + editTextLocation + "');");
 
         sqlDB.close();
 

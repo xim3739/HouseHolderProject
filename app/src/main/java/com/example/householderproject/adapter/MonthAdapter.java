@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.text.format.Time;
 import android.util.AttributeSet;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.householderproject.R;
+import com.example.householderproject.fragment.Fragment1;
 import com.example.householderproject.model.CalendarListData;
 import com.example.householderproject.model.MonthItem;
 import com.example.householderproject.util.DBHelper;
@@ -34,6 +37,7 @@ public class MonthAdapter extends BaseAdapter {
     public int lastDay;//현재년도 현재달 마지막일
     public int selectedPosition = -1;//명시적 초기값 = -1
     public ArrayList<CalendarListData> list = new ArrayList<>();
+    private int day;
 
     public MonthAdapter() {
     }
@@ -68,6 +72,7 @@ public class MonthAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.calendar_inner_view_holder, null);
         }
@@ -83,7 +88,7 @@ public class MonthAdapter extends BaseAdapter {
             SQLiteDatabase sqlDB = myDBHelper.getReadableDatabase();
             Cursor cursor;
             //날짜로 검색한 모든데이타(디비에 있는 데이타)를 가져온다
-            cursor = sqlDB.rawQuery("SELECT * FROM calenderTBL WHERE date = '" + curYear + "" + (curMonth+1) + "" + items[position].getDayValue() + "';", null);
+            cursor = sqlDB.rawQuery("SELECT * FROM calenderTBL WHERE date = '" + curYear + "" + (curMonth + 1) + "" + items[position].getDayValue() + "';", null);
             /*while () {                 select * FROM calenderTBL WHERE date like'2019_12_18%';
                 String databaseDate = cursor.getColumnName(0);
                 String databaseCoinrdo = cursor.getColumnName(1);
@@ -91,10 +96,9 @@ public class MonthAdapter extends BaseAdapter {
                 String databaseCoinfilter = cursor.getColumnName(3);
                 list.add(new MyList_Data(databaseDate,databaseCoinrdo,databaseCoinedttxt,databaseCoinfilter));
             }*/
-
-            if(cursor.getCount() != 0){
+            if (cursor.getCount() != 0) {
                 image1.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 image1.setVisibility(View.INVISIBLE);
             }
 
@@ -110,9 +114,14 @@ public class MonthAdapter extends BaseAdapter {
         } else if (columnIndex == 6) {
             txtDate.setTextColor(Color.BLUE);
         } else {
-            txtDate.setTextColor(Color.GRAY);
-
+            txtDate.setTextColor(mContext.getResources().getColor(R.color.customGray));
         }
+        if (day == items[position].getDayValue()) {
+             txtDate.setTextColor(mContext.getResources().getColor(R.color.customDark));
+            /*txtDate.setTypeface(null, Typeface.BOLD);*/
+        }
+
+
 
         return convertView;
     }
@@ -124,6 +133,9 @@ public class MonthAdapter extends BaseAdapter {
         items = new MonthItem[42];
         //현재 년,월,일,시간을 가져옴
         mCalender = Calendar.getInstance();
+        //더 정확한 현재 날짜를 가져옴
+        mCalender.setTimeInMillis(System.currentTimeMillis());
+        day = mCalender.get(Calendar.DAY_OF_MONTH);
         //11월달, 1일~30일 1일 = 금요일, 달력의 시작점(우리나라 = 일요일 부터 시작)
         //년도, 월, 마지막일(윤년), 1일 -> 요일위치, 달력위치(월,일,토 중 선택);
         recalculate();

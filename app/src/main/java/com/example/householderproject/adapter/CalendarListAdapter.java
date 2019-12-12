@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -82,6 +84,14 @@ public class CalendarListAdapter extends BaseAdapter {
         listTextViewEdt.setText(list.get(position).getCredit());
 
         listTextViewCombo.setTag(position);
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = new AlphaAnimation(0.3f,1.0f);
+                animation.setDuration(500);
+                v.startAnimation(animation);
+            }
+        });
 
         return convertView;
     }

@@ -20,7 +20,7 @@
     to add dashes to your stroke-->
     <stroke
         android:width="2dp"
-        android:color="#FFDE9C" />
+        android:color="#FFFFFF" />
 
 
 </shape>

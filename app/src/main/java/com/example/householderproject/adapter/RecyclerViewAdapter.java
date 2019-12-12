@@ -78,7 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         Log.e("!!!", "onBindViewHolder");
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        /*holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
             public boolean onLongClick(View v) {
@@ -143,11 +143,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                 return true;
             }
-        });
+        });*/
 
     }
 
-    private void handleSearchResult(Context context, String resultString) {
+    /*private void handleSearchResult(Context context, String resultString) {
 
         try {
 
@@ -193,7 +193,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         return builder;
 
-    }
+    }*/
 
 
     @Override
