@@ -3,6 +3,20 @@ package com.example.householderproject.model;
 public class MonthItem {
 
     private int dayValue;
+    private int monthValue;
+
+    public MonthItem(int dayValue, int monthValue) {
+        this.dayValue = dayValue;
+        this.monthValue = monthValue;
+    }
+
+    public int getMonthValue() {
+        return monthValue;
+    }
+
+    public void setMonthValue(int monthValue) {
+        this.monthValue = monthValue;
+    }
 
     public MonthItem() {
     }

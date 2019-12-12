@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import com.example.householderproject.R;
 import com.example.householderproject.adapter.CalendarListAdapter;
 import com.example.householderproject.adapter.MonthAdapter;
+import com.example.householderproject.calendar.MonthItemView;
 import com.example.householderproject.model.CalendarListData;
 import com.example.householderproject.model.MonthItem;
 import com.example.householderproject.util.DBHelper;
@@ -40,14 +41,15 @@ import static com.example.householderproject.MainActivity.myContext;
 
 public class Fragment1 extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
-    private TextView btPrevious, btNext;
+    private TextView btPrevious, btNext, txtDate;
     private GridView gridViewCalendar;
     private TextView textViewYear;
     private ListView listView;
     private View view;
     private String str;
     private String currentDate;
-    private boolean check;
+    private int selectedposition;
+    /*  public static int selectedposition;*/
 
     private CalendarListAdapter calendarListAdapter;
     private ArrayList<CalendarListData> calendarList = new ArrayList<>();
@@ -55,7 +57,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
     public static SQLiteDatabase sqlDB;
     public static DBHelper dbHelper;
-    public static int seleteposition;
+
 
     @Nullable
     @Override
@@ -73,7 +75,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
 
         //1.어뎁터를 생성
-        monthAdapter = new MonthAdapter(myContext);
+        monthAdapter = new MonthAdapter(myContext, selectedposition);
         gridViewCalendar.setAdapter(monthAdapter);
         setYearMonth();
 
@@ -119,16 +121,12 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        seleteposition = position;
         MonthItem curItem = (MonthItem) monthAdapter.getItem(position);
-
         currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1);
+        //어뎁터에 있는 위치의 값을 가져와 현재 위치에 넣어준다
+        monthAdapter.setSelectedPosition(position);
+        monthAdapter.notifyDataSetChanged();
 
-        if(view.isSelected()){
-            view.setBackgroundResource(R.drawable.custom);
-        }else {
-            view.setBackgroundResource(0);
-        }
         if (curItem.getDayValue() != 0) {
             dbHelper = new DBHelper(myContext);
             sqlDB = dbHelper.getReadableDatabase();

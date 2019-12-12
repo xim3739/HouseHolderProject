@@ -127,6 +127,7 @@
         </LinearLayout>
 
         <GridView
+            android:listSelector="@drawable/custom"
             android:id="@+id/gvCalender"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

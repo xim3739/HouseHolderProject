@@ -22,6 +22,7 @@ import com.example.householderproject.util.DBHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MonthAdapter extends BaseAdapter {
 
@@ -38,19 +39,30 @@ public class MonthAdapter extends BaseAdapter {
     public int selectedPosition = -1;//명시적 초기값 = -1
     public ArrayList<CalendarListData> list = new ArrayList<>();
     private int day;
+    private int month;
+    private int year;
+
+    int selectedposition = -1;
 
     public MonthAdapter() {
     }
 
-    public MonthAdapter(Context mContext) {
-        this.mContext = mContext;
+    public MonthAdapter(Context mContext, int position) {
         //달력을 계산할 내용으로 셋팅진행
+        this.mContext = mContext;
+        //-1값을 준다
+        selectedPosition = -1;
         init();
     }
 
     public MonthAdapter(Context context, AttributeSet attributeSet) {
         mContext = context;
         init();
+    }
+
+    public void setSelectedPosition(int position) {
+        selectedPosition = position;
+        notifyDataSetChanged();
     }
 
 
@@ -79,6 +91,7 @@ public class MonthAdapter extends BaseAdapter {
         TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
         ImageView image1 = (ImageView) convertView.findViewById(R.id.image1);
 
+        //현재 위치에 값이 없을때 이미지는 보여주지 않음 == 1~30,30을 표현 해주는 값
         if (items[position].getDayValue() == 0) {
             txtDate.setText("");
             image1.setVisibility(View.INVISIBLE);
@@ -96,32 +109,40 @@ public class MonthAdapter extends BaseAdapter {
                 String databaseCoinfilter = cursor.getColumnName(3);
                 list.add(new MyList_Data(databaseDate,databaseCoinrdo,databaseCoinedttxt,databaseCoinfilter));
             }*/
+            //해당하는 날짜에 값이 생기면 이미지를 보여주는 여부
             if (cursor.getCount() != 0) {
                 image1.setVisibility(View.VISIBLE);
             } else {
                 image1.setVisibility(View.INVISIBLE);
             }
-
             cursor.close();
             sqlDB.close();
 
             txtDate.setText(String.valueOf(items[position].getDayValue()));
         }
-        int columnIndex = position % 7;
 
+        int columnIndex = position % 7;
+        //컬럼 인덱스가 0일때 일요일에 해당
         if (columnIndex == 0) {
             txtDate.setTextColor(Color.RED);
+            //컬럼인덱스가 6일때 토요일에 해당
         } else if (columnIndex == 6) {
             txtDate.setTextColor(Color.BLUE);
+            //컬럼 인덱스가 그외의 값이면 월요일부터 금요일까지를 가르킴
         } else {
             txtDate.setTextColor(mContext.getResources().getColor(R.color.customGray));
         }
-        if (day == items[position].getDayValue()) {
-             txtDate.setTextColor(mContext.getResources().getColor(R.color.customDark));
+        //현재 날짜에 진하게 글씨 표현 하기
+        if ((day == items[position].getDayValue()) && (month==mCalender.get(Calendar.MONTH))&&(year ==mCalender.get(Calendar.YEAR))) {
+            txtDate.setTextColor(mContext.getResources().getColor(R.color.customDark));
             /*txtDate.setTypeface(null, Typeface.BOLD);*/
         }
-
-
+        //현재 보여주는 창에서 비교해준다
+        if (items[position].getDayValue() == 0) {
+            return convertView;
+        } else {
+            convertView.setActivated(selectedPosition != -1 && position == selectedPosition);
+        }
 
         return convertView;
     }
@@ -136,6 +157,9 @@ public class MonthAdapter extends BaseAdapter {
         //더 정확한 현재 날짜를 가져옴
         mCalender.setTimeInMillis(System.currentTimeMillis());
         day = mCalender.get(Calendar.DAY_OF_MONTH);
+        month = mCalender.get(Calendar.MONTH);
+        year = mCalender.get(Calendar.YEAR);
+
         //11월달, 1일~30일 1일 = 금요일, 달력의 시작점(우리나라 = 일요일 부터 시작)
         //년도, 월, 마지막일(윤년), 1일 -> 요일위치, 달력위치(월,일,토 중 선택);
         recalculate();
@@ -273,10 +297,4 @@ public class MonthAdapter extends BaseAdapter {
         resetDayNumbers();
         selectedPosition = -1;
     }
-
-    private int getSelectedPosition() {
-        this.selectedPosition = selectedPosition;
-        return selectedPosition;
-    }
-
 }

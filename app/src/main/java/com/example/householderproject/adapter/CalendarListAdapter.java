@@ -27,7 +27,6 @@ public class CalendarListAdapter extends BaseAdapter {
     private int layoutID;
     //어뎁터가 어디서 사용될지 알아야 한다
     private Context context;
-    private SwipeLayout swipe_sample1;
 
 
     public CalendarListAdapter(ArrayList<CalendarListData> list, int layoutID, Context context) {
@@ -54,9 +53,7 @@ public class CalendarListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, final ViewGroup parent) {
-        if (convertView == null) {
-            convertView = inflater.inflate(layoutID, null);
-        }
+        if (convertView == null) { convertView = inflater.inflate(layoutID, null); }
 
         ImageView listImgView = convertView.findViewById(R.id.listImgView);
         TextView listTextViewRdo = convertView.findViewById(R.id.listTextViewRdo);
@@ -69,21 +66,15 @@ public class CalendarListAdapter extends BaseAdapter {
             listImgView.setImageResource(R.mipmap.expenditure);
         }*/
 
-        if(list.get(position).getDetail().equals("수입")){
-
-            listImgView.setImageResource(R.mipmap.income);
-
-        }else {
-
-            listImgView.setImageResource(R.mipmap.expenditure);
-
-        }
+        if(list.get(position).getDetail().equals("수입")){ listImgView.setImageResource(R.mipmap.income);
+        }else { listImgView.setImageResource(R.mipmap.expenditure); }
 
         listTextViewRdo.setText(list.get(position).getDetail());
         listTextViewCombo.setText(list.get(position).getCategory());
         listTextViewEdt.setText(list.get(position).getCredit());
 
         listTextViewCombo.setTag(position);
+        //리스트를 클릭하면 클릭한 효과를 흰색으로 준다
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +83,6 @@ public class CalendarListAdapter extends BaseAdapter {
                 v.startAnimation(animation);
             }
         });
-
         return convertView;
     }
 }
