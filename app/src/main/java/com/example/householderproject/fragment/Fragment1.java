@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -42,22 +45,23 @@ import static com.example.householderproject.MainActivity.myContext;
 public class Fragment1 extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private TextView btPrevious, btNext, txtDate;
-    private GridView gridViewCalendar;
+    public static GridView gridViewCalendar;
     private TextView textViewYear;
     private ListView listView;
     private View view;
     private String str;
-    private String currentDate;
-    private int selectedposition;
-    /*  public static int selectedposition;*/
+    private static String currentDate;
 
-    private CalendarListAdapter calendarListAdapter;
-    private ArrayList<CalendarListData> calendarList = new ArrayList<>();
-    private MonthAdapter monthAdapter;
+    public static int selectedposition;
+
+    public static CalendarListAdapter calendarListAdapter;
+    private static ArrayList<CalendarListData> calendarList = new ArrayList<>();
+    private static MonthAdapter monthAdapter;
 
     public static SQLiteDatabase sqlDB;
     public static DBHelper dbHelper;
 
+    public static AdapterView<?> sparent;
 
     @Nullable
     @Override
@@ -121,13 +125,22 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        sparent =parent;
+        gridViewClickEvent(sparent, position);
+
+
+    }
+
+    public static void gridViewClickEvent(View view, int position) {
         MonthItem curItem = (MonthItem) monthAdapter.getItem(position);
         currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1);
         //어뎁터에 있는 위치의 값을 가져와 현재 위치에 넣어준다
         monthAdapter.setSelectedPosition(position);
         monthAdapter.notifyDataSetChanged();
+        selectedposition = position;
 
         if (curItem.getDayValue() != 0) {
+
             dbHelper = new DBHelper(myContext);
             sqlDB = dbHelper.getReadableDatabase();
 
@@ -139,11 +152,12 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
             while (cursor.moveToNext()) {
 
+                int getNo = cursor.getInt(0);
                 String getCredit = cursor.getString(2);
                 String getDetail = cursor.getString(3);
                 String getCategory = cursor.getString(4);
 
-                calendarList.add(new CalendarListData(getCredit, getDetail, getCategory));
+                calendarList.add(new CalendarListData(getNo, getCredit, getDetail, getCategory));
 
             }
 
@@ -152,6 +166,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
             sqlDB.close();
 
         }
+
     }
 
     @Override
@@ -174,11 +189,12 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
             while (cursor.moveToNext()) {
 
+                int getNo = cursor.getInt(0);
                 String getCredit = cursor.getString(2);
                 String getDetail = cursor.getString(3);
                 String getCategory = cursor.getString(4);
 
-                calendarList.add(new CalendarListData(getCredit, getDetail, getCategory));
+                calendarList.add(new CalendarListData(getNo, getCredit, getDetail, getCategory));
 
             }
 
@@ -272,7 +288,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         dbHelper = new DBHelper(context);
         sqlDB = dbHelper.getWritableDatabase();
 
-        sqlDB.execSQL("INSERT INTO calenderTBL VALUES(null, '" + currentDate + "','" + editTextCredit + "','"
+        sqlDB.execSQL("INSERT INTO calenderTBL VALUES(null,'" + currentDate + "','" + editTextCredit + "','"
                 + radioButtonMinus + "','" + spinnerFilter + "', '" + editTextLocation + "');");
 
         sqlDB.close();
@@ -290,7 +306,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         dbHelper = new DBHelper(context);
         sqlDB = dbHelper.getWritableDatabase();
 
-        sqlDB.execSQL("INSERT INTO calenderTBL VALUES( null, '" + currentDate + "','" + editTextCredit + "','"
+        sqlDB.execSQL("INSERT INTO calenderTBL VALUES(null,'" + currentDate + "','" + editTextCredit + "','"
                 + radioButtonPlus + "','" + spinnerFilter + "', '" + editTextLocation + "');");
 
         sqlDB.close();
