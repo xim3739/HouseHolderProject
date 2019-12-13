@@ -31,10 +31,10 @@ public class CalendarListData {
     }
 
     //문자를 받아오면 저장 할 생성자
-    public CalendarListData(String date, String credit, String detail, String location) {
-        this.date = date;
+    public CalendarListData(String credit, String detail, String category, String location) {
         this.credit = credit;
         this.detail = detail;
+        this.category = category;
         this.location = location;
     }
 
@@ -49,6 +49,7 @@ public class CalendarListData {
         this.detail = detail;
         this.category = category;
     }
+
 
     public int getNo() { return no; }
 
