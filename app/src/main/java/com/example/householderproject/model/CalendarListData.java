@@ -1,16 +1,27 @@
 package com.example.householderproject.model;
 
+import android.widget.ImageButton;
+
 public class CalendarListData {
 
+    private int no;
     private String date;
-    private String credit;
-    private String detail;
-    private String category;
+    private String credit;//EditText
+    private String detail;//RadioButton
+    private String category;//spinner
     private String location;
+
+    public CalendarListData(int no, String date, String credit, String detail, String category, String location) {
+        this.no = no;
+        this.date = date;
+        this.credit = credit;
+        this.detail = detail;
+        this.category = category;
+        this.location = location;
+    }
 
     //alert 에서 저장 할 생성자
     public CalendarListData(String date, String credit, String detail, String category, String location) {
-
         this.date = date;
         this.credit = credit;
         this.detail = detail;
@@ -20,10 +31,10 @@ public class CalendarListData {
     }
 
     //문자를 받아오면 저장 할 생성자
-    public CalendarListData(String date, String credit, String detail, String location) {
-        this.date = date;
+    public CalendarListData(String credit, String detail, String category, String location) {
         this.credit = credit;
         this.detail = detail;
+        this.category = category;
         this.location = location;
     }
 
@@ -32,6 +43,17 @@ public class CalendarListData {
         this.detail = detail;
         this.category = category;
     }
+    public CalendarListData(int no,String credit, String detail, String category) {
+        this.no = no;
+        this.credit = credit;
+        this.detail = detail;
+        this.category = category;
+    }
+
+
+    public int getNo() { return no; }
+
+    public void setNo(int no) { this.no = no; }
 
     public String getDate() {
         return date;
@@ -72,4 +94,6 @@ public class CalendarListData {
     public void setLocation(String location) {
         this.location = location;
     }
+
+
 }

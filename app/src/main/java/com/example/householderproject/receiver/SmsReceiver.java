@@ -58,7 +58,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
             DBHelper dbHelper = new DBHelper(context);
             SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-            sqLiteDatabase.execSQL("INSERT INTO calenderTBL VALUES (null, '" + receivedDate + "' , '" + credit + "' , '지출', '카드', '" + location +"');");
+            sqLiteDatabase.execSQL("INSERT INTO calenderTBL VALUES (null,'" + receivedDate + "' , '" + credit + "' , '지출', '카드', '" + location +"');");
 
             sqLiteDatabase.close();
 

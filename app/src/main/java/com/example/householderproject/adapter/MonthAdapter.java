@@ -143,7 +143,6 @@ public class MonthAdapter extends BaseAdapter {
         } else {
             convertView.setActivated(selectedPosition != -1 && position == selectedPosition);
         }
-
         return convertView;
     }
 
