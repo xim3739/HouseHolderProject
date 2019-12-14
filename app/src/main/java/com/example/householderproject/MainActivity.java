@@ -46,11 +46,9 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Fragment1 fragment1;
-<<<<<<< HEAD
-    //    private Fragment2 fragment2;
-=======
+
     private Fragment2 fragment2;
->>>>>>> 417177c22ed4406a7298ec4fb4cf34f129effef1
+
     private Fragment3 fragment3;
     private Fragment4 fragment4;
 
