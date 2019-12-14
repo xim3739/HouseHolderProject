@@ -11,6 +11,10 @@ public class CalendarListData {
     private String category;//spinner
     private String location;
 
+    public CalendarListData(String credit) {
+        this.credit = credit;
+    }
+
     public CalendarListData(int no, String date, String credit, String detail, String category, String location) {
         this.no = no;
         this.date = date;

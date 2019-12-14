@@ -18,10 +18,10 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.householderproject.fragment.Fragment1;
+import com.example.householderproject.fragment.Fragment2;
 import com.example.householderproject.fragment.Fragment3;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 
 import android.util.Log;
 import android.util.Base64;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Fragment1 fragment1;
-//    private Fragment2 fragment2;
+    private Fragment2 fragment2;
     private Fragment3 fragment3;
 //    private Fragment4 fragment4;
 
@@ -53,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 /*
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase sqLiteOpenHelper = dbHelper.getReadableDatabase();
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setItemIconTintList(null);
         frameLayout = findViewById(R.id.frameLayout);
         fragment1 = new Fragment1();
-//        fragment2 = new Fragment2();
+        fragment2 = new Fragment2();
         fragment3 = new Fragment3();
 //        fragment4 = new Fragment4();
 
@@ -89,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.action_1: //fragmentManager1 화면 전환
                         setChangeFragment(0);
                         break;
-//                    case R.id.action_2: //fragmentManager2 화면 전환
-//                        setChangeFragment(1);
-//                        break;
+                   case R.id.action_2: //fragmentManager2 화면 전환
+                        setChangeFragment(1);
+                        break;
                     case R.id.action_3: //fragmentManager3 화면 전환
                         setChangeFragment(2);
 //                        break;
@@ -117,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.frameLayout, fragment1);
                 fragmentTransaction.commit();
                 break;
-//            case 1:
-//                fragmentTransaction.replace(R.id.frameLayout, fragment2);
-//                fragmentTransaction.commit();
-//                break;
+            case 1:
+                fragmentTransaction.replace(R.id.frameLayout, fragment2);
+                fragmentTransaction.commit();
+                break;
             case 2:
                 fragmentTransaction.replace(R.id.frameLayout, fragment3);
                 fragmentTransaction.commit();
