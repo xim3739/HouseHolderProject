@@ -232,7 +232,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 yearOfNow = year;
 
-                btYearAndMonthDatePicker.setText(yearOfNow + "년");
+                btYearDatePicker.setText(yearOfNow + "년");
             }
         }, year, month, day);
 
