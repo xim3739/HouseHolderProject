@@ -74,7 +74,6 @@ public class CalendarListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
 
-
         if (convertView == null) {
             convertView = inflater.inflate(layoutID, null);
         }
@@ -90,7 +89,7 @@ public class CalendarListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(parent.getContext(), "" + list.get(position).getNo(), Toast.LENGTH_LONG).show();
+                Toast.makeText(parent.getContext(), "삭제하였습니다" , Toast.LENGTH_LONG).show();
                 Log.e("!!!", "adapter" + list.get(position).getNo());
                 DBHelper myDBHelper = new DBHelper(parent.getContext());
                 SQLiteDatabase sqlDB = myDBHelper.getWritableDatabase();
@@ -118,7 +117,7 @@ public class CalendarListAdapter extends BaseAdapter {
                     final RadioButton radioButtonPlus = listViewDialogView.findViewById(R.id.rdoPlus);
                     final RadioButton radioButtonMinus = listViewDialogView.findViewById(R.id.rdoMinus);
 
-                    Toast.makeText(parent.getContext(), "Location" + list.get(position).getLocation(), Toast.LENGTH_LONG).show();
+                   /* Toast.makeText(parent.getContext(), "Location" + list.get(position).getLocation(), Toast.LENGTH_LONG).show();*/
 
                     editTextCredit.setText(list.get(position).getCredit());
                     editTextLocation.setText(list.get(position).getLocation());
@@ -188,6 +187,7 @@ public class CalendarListAdapter extends BaseAdapter {
         listTextViewEdt.setText(list.get(position).getCredit());
 
         listTextViewCombo.setTag(position);
+
         //리스트를 클릭하면 클릭한 효과를 흰색으로 준다
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

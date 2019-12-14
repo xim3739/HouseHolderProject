@@ -20,17 +20,21 @@ import android.widget.Toast;
 import com.example.householderproject.fragment.Fragment1;
 import com.example.householderproject.fragment.Fragment3;
 
+import com.example.householderproject.fragment.Fragment4;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 
 import android.util.Log;
 import android.util.Base64;
 import android.content.Intent;
+
 import java.security.MessageDigest;
+
 import android.content.pm.Signature;
 import android.content.pm.PackageInfo;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import com.example.householderproject.util.DBHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,9 +46,9 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Fragment1 fragment1;
-//    private Fragment2 fragment2;
+    //    private Fragment2 fragment2;
     private Fragment3 fragment3;
-//    private Fragment4 fragment4;
+    private Fragment4 fragment4;
 
     public static Context myContext;
 
@@ -72,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         fragment1 = new Fragment1();
 //        fragment2 = new Fragment2();
         fragment3 = new Fragment3();
-//        fragment4 = new Fragment4();
+        fragment4 = new Fragment4();
 
     }
 
@@ -94,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
 //                        break;
                     case R.id.action_3: //fragmentManager3 화면 전환
                         setChangeFragment(2);
-//                        break;
-//                    case R.id.action_4: //fragmentManager4 화면 전환
-//                        setChangeFragment(3);
-//                        break;
+                        break;
+                    case R.id.action_4: //fragmentManager4 화면 전환
+                        setChangeFragment(3);
+                        break;
                 }
                 return true;
             }
@@ -125,29 +129,29 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.frameLayout, fragment3);
                 fragmentTransaction.commit();
                 break;
-//            case 3:
-//                fragmentTransaction.replace(R.id.frameLayout, fragment4);
-//                fragmentTransaction.commit();
-//                break;
+            case 3:
+                fragmentTransaction.replace(R.id.frameLayout, fragment4);
+                fragmentTransaction.commit();
+                break;
         }
     }
 
     private void permissionCheckMethod(MainActivity context) {
         int permissionCheck = ContextCompat.checkSelfPermission(context, Manifest.permission.RECEIVE_SMS);
 
-        if(permissionCheck == PackageManager.PERMISSION_GRANTED) {
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
 
             Toast.makeText(context, "Already SMS Accept", Toast.LENGTH_LONG).show();
 
-        }else {
-            
+        } else {
+
             Toast.makeText(context, "No Sms Accept", Toast.LENGTH_LONG).show();
-            
-            if(ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.RECEIVE_SMS)) {
-                
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.RECEIVE_SMS)) {
+
                 Toast.makeText(context, "Need SMS Accept", Toast.LENGTH_LONG).show();
                 ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.RECEIVE_SMS}, SMS_RECEIVE_PERMISSION);
-                
+
             } else {
 
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECEIVE_SMS}, SMS_RECEIVE_PERMISSION);
@@ -164,9 +168,9 @@ public class MainActivity extends AppCompatActivity {
 
         switch (requestCode) {
 
-            case SMS_RECEIVE_PERMISSION :
+            case SMS_RECEIVE_PERMISSION:
 
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     Toast.makeText(getApplicationContext(), "SMS ACCEPT", Toast.LENGTH_LONG).show();
 

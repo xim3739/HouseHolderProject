@@ -98,50 +98,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
         gridViewCalendar.setOnItemLongClickListener(this);
 
-      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast.makeText(getContext(),"listLongClick",Toast.LENGTH_LONG).show();
-                View listViewDialogView = View.inflate(view.getContext(), R.layout.calendar_input_data_dialog, null);
-                TextView textViewTitle = listViewDialogView.findViewById(R.id.textViewTitle);
-                textViewTitle.setText("수정");
-
-                editTextCredit = listViewDialogView.findViewById(R.id.edtLittle);
-                editTextLocation = listViewDialogView.findViewById(R.id.editTextLocation);
-                spinnerFilter = listViewDialogView.findViewById(R.id.spinnerFilter);
-                radioButtonPlus = listViewDialogView.findViewById(R.id.rdoPlus);
-                radioButtonMinus = listViewDialogView.findViewById(R.id.rdoMinus);
-
-                editTextCredit.setHint(calendarList.get(position).getCredit());
-                editTextLocation.setHint(calendarList.get(position).getLocation());
-                spinnerFilter.setContentDescription(calendarList.get(position).getCategory());
-                if(calendarList.get(position).getDetail().equals("수입")){
-                    radioButtonPlus.setChecked(true);
-                    radioButtonMinus.setChecked(false);
-                }else {
-                    radioButtonPlus.setChecked(false);
-                    radioButtonMinus.setChecked(true);
-                }
-                AlertDialog.Builder listViewDialog = new AlertDialog.Builder(view.getContext());
-                listViewDialog.setView(listViewDialogView);
-                listViewDialog.setPositiveButton("수정", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                listViewDialog.setNegativeButton("취소",null);
-                listViewDialog.show();
-                return true;
-            }
-        });*/
         return view;
 
     }
@@ -313,41 +269,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                 dialog.setNegativeButton("취소", null);
                 dialog.show();
                 break;
-           /* case R.id.listView:
-                Toast.makeText(getContext(), "listLongClick", Toast.LENGTH_LONG).show();
-                View listViewDialogView = View.inflate(view.getContext(), R.layout.calendar_input_data_dialog, null);
-                TextView textViewTitle = listViewDialogView.findViewById(R.id.textViewTitle);
-                textViewTitle.setText("수정");
-
-                editTextCredit = listViewDialogView.findViewById(R.id.edtLittle);
-                editTextLocation = listViewDialogView.findViewById(R.id.editTextLocation);
-                spinnerFilter = listViewDialogView.findViewById(R.id.spinnerFilter);
-                radioButtonPlus = listViewDialogView.findViewById(R.id.rdoPlus);
-                radioButtonMinus = listViewDialogView.findViewById(R.id.rdoMinus);
-
-                editTextCredit.setHint(calendarList.get(position).getCredit());
-                editTextLocation.setHint(calendarList.get(position).getLocation());
-                spinnerFilter.setContentDescription(calendarList.get(position).getCategory());
-                if (calendarList.get(position).getDetail().equals("수입")) {
-                    radioButtonPlus.setChecked(true);
-                    radioButtonMinus.setChecked(false);
-                } else {
-                    radioButtonPlus.setChecked(false);
-                    radioButtonMinus.setChecked(true);
-                }
-                AlertDialog.Builder listViewDialog = new AlertDialog.Builder(view.getContext());
-                listViewDialog.setView(listViewDialogView);
-                listViewDialog.setPositiveButton("수정", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                listViewDialog.setNegativeButton("취소", null);
-                listViewDialog.show();
-
-                break;*/
-
         }
         return false;
     }
@@ -377,7 +298,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         calendarList.add(new CalendarListData(editTextCredit, radioButtonMinus, spinnerFilter,editTextLocation));
         monthAdapter.notifyDataSetChanged();
 
-        Toast.makeText(context, str + "(으)로 " + editTextCredit + "원의 지출이 발생하였습니다", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, str + "(으)로 " + editTextCredit + "의 지출이 발생하였습니다", Toast.LENGTH_LONG).show();
 
     }
 
@@ -395,7 +316,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         calendarList.add(new CalendarListData(editTextCredit, radioButtonPlus, spinnerFilter,editTextLocation));
         monthAdapter.notifyDataSetChanged();
 
-        Toast.makeText(context, str + "(으)로 " + editTextCredit + "원의 수입이 발생하였습니다", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, str + "(으)로 " + editTextCredit + "의 수입이 발생하였습니다", Toast.LENGTH_LONG).show();
 
     }
 }
