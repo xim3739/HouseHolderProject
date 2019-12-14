@@ -89,6 +89,7 @@ public class SmsReceiver extends BroadcastReceiver {
         builder.setPriority(Notification.PRIORITY_MAX);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
             int importance = NotificationManager.IMPORTANCE_HIGH;
 
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_ID, "NOTIFICATION_CHNNEL_NAME", importance);
@@ -101,6 +102,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
         assert notificationManager != null;
         notificationManager.notify(0, builder.build());
+
     }
 
     private String checkSMSCredit(String contents) {
@@ -170,7 +172,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 String format = bundle.getString("format");
                 messages[i] = SmsMessage.createFromPdu((byte[])objects[i], format);
 
-            }else {
+            } else {
 
                 messages[i] = SmsMessage.createFromPdu((byte[])objects[i]);
 
@@ -181,4 +183,5 @@ public class SmsReceiver extends BroadcastReceiver {
         return messages;
 
     }
+
 }
