@@ -247,8 +247,8 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         Fragment fragment = new SpentLimitFragment();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.commit();
+        //지출현황프래그먼트에서 뒤로가기 버튼을 누르면 월간보고서 첫화면으로 돌아간다.
+        fragmentTransaction.replace(R.id.frameLayout, fragment).addToBackStack(null).commit();
 
     }
 

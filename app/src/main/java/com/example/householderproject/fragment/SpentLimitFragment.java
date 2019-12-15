@@ -1,6 +1,8 @@
 package com.example.householderproject.fragment;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.householderproject.MainActivity;
 import com.example.householderproject.R;
 import com.example.householderproject.adapter.StaticsAdapter;
 import com.example.householderproject.model.CalendarListData;
@@ -27,7 +30,7 @@ import com.example.householderproject.util.DBHelper;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class SpentLimitFragment extends Fragment {
+public class SpentLimitFragment extends Fragment{
 
     private Button btDatePicker;
 
@@ -175,4 +178,6 @@ public class SpentLimitFragment extends Fragment {
 
         return view;
     }
+
+
 }
