@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,14 +131,17 @@ public class SpentLimitFragment extends Fragment {
                         textViewSpent.setText(String.valueOf(spentSum));
 
                         try {
+                            Log.d("spent", "ddd"+String.valueOf(incomeSum));
+                            float ratio;
+                            ratio = (float) spentSum / incomeSum;
 
-                            float ratio = 0.0f;
-                            ratio = (float) (spentSum / incomeSum);
+                            Log.d("spent", String.valueOf(ratio));
                             int percent = (int) (ratio * 100);
 
                             progressBar.setMax(100);
                             progressBar.setScaleY(3f);
 
+                            Log.d("spent", String.valueOf(percent));
                             if(percent <= 100) {
                                 if(percent > 1) {
                                     progressBar.setProgress(percent);
