@@ -111,7 +111,7 @@ public class CalendarListAdapter extends BaseAdapter {
                     final RadioButton radioButtonPlus = listViewDialogView.findViewById(R.id.rdoPlus);
                     final RadioButton radioButtonMinus = listViewDialogView.findViewById(R.id.rdoMinus);
 
-                   /* Toast.makeText(parent.getContext(), "Location" + list.get(position).getLocation(), Toast.LENGTH_LONG).show();*/
+                    Toast.makeText(parent.getContext(), "Location" + list.get(position).getLocation(), Toast.LENGTH_LONG).show();
 
                     editTextCredit.setText(list.get(position).getCredit());
                     editTextLocation.setText(list.get(position).getLocation());
