@@ -29,6 +29,7 @@ import android.util.Base64;
 import android.content.Intent;
 
 import java.security.MessageDigest;
+import java.util.Stack;
 
 import android.content.pm.Signature;
 import android.content.pm.PackageInfo;
@@ -36,6 +37,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.householderproject.util.DBHelper;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -184,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 
 //    private void getHash() {
 //        try {

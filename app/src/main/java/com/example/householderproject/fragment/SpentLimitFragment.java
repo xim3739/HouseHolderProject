@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,6 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,13 +20,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.householderproject.R;
 import com.example.householderproject.adapter.StaticsAdapter;
-import com.example.householderproject.model.CalendarListData;
+import com.example.householderproject.model.HouseHoldModel;
 import com.example.householderproject.util.DBHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class SpentLimitFragment extends Fragment {
+public class SpentLimitFragment extends Fragment{
 
     private Button btDatePicker;
 
@@ -43,9 +43,9 @@ public class SpentLimitFragment extends Fragment {
     private int yearOfNow = 0;
     private int monthOfNow = 0;
 
-    private ArrayList<CalendarListData> spentList = new ArrayList<>();
-    private ArrayList<CalendarListData> incomeList = new ArrayList<>();
-    private ArrayList<CalendarListData> incomeListForProgressBar = new ArrayList<>();
+    private ArrayList<HouseHoldModel> spentList = new ArrayList<>();
+    private ArrayList<HouseHoldModel> incomeList = new ArrayList<>();
+    private ArrayList<HouseHoldModel> incomeListForProgressBar = new ArrayList<>();
 
     private DBHelper dbHelper;
     private SQLiteDatabase sqLiteDatabase;
@@ -96,7 +96,7 @@ public class SpentLimitFragment extends Fragment {
 
                         spentList.removeAll(spentList);
                         while(cursor.moveToNext()) {
-                            spentList.add(new CalendarListData(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+                            spentList.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
                         }
 
                         int spentSum = 0;
@@ -113,8 +113,8 @@ public class SpentLimitFragment extends Fragment {
 
                         incomeList.removeAll(incomeList);
                         while(cursor.moveToNext()) {
-                            incomeListForProgressBar.add(new CalendarListData(cursor.getString(2)));
-                            incomeList.add(new CalendarListData(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+                            incomeListForProgressBar.add(new HouseHoldModel(cursor.getString(2)));
+                            incomeList.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
                         }
 
                         int incomeSum = 0;
@@ -130,14 +130,17 @@ public class SpentLimitFragment extends Fragment {
                         textViewSpent.setText(String.valueOf(spentSum));
 
                         try {
+                            Log.d("spent", "ddd"+String.valueOf(incomeSum));
+                            float ratio;
+                            ratio = (float) spentSum / incomeSum;
 
-                            float ratio = 0.0f;
-                            ratio = (float) (spentSum / incomeSum);
+                            Log.d("spent", String.valueOf(ratio));
                             int percent = (int) (ratio * 100);
 
                             progressBar.setMax(100);
                             progressBar.setScaleY(3f);
 
+                            Log.d("spent", String.valueOf(percent));
                             if(percent <= 100) {
                                 if(percent > 1) {
                                     progressBar.setProgress(percent);
@@ -171,4 +174,6 @@ public class SpentLimitFragment extends Fragment {
 
         return view;
     }
+
+
 }

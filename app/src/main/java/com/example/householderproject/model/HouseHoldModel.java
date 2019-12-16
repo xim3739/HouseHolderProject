@@ -1,23 +1,27 @@
 package com.example.householderproject.model;
 
-import android.widget.ImageButton;
-
-public class CalendarListData {
+public class HouseHoldModel {
 
     private int no;
     private String date;
-    private String credit;//EditText
-    private String detail;//RadioButton
-    private String category;//spinner
+    private String credit;
+    private String detail;
+    private String category;
     private String location;
 
-    public CalendarListData(String credit) {
+    public HouseHoldModel(String credit) {
         this.credit = credit;
     }
 
-    public CalendarListData(int no, String date, String credit, String detail, String category, String location) {
+    public HouseHoldModel(int no, String credit, String detail, String category) {
         this.no = no;
-        this.date = date;
+        this.credit = credit;
+        this.detail = detail;
+        this.category = category;
+    }
+
+    //문자를 받아오면 저장 할 생성자
+    public HouseHoldModel(String credit, String detail, String category, String location) {
         this.credit = credit;
         this.detail = detail;
         this.category = category;
@@ -25,7 +29,7 @@ public class CalendarListData {
     }
 
     //alert 에서 저장 할 생성자
-    public CalendarListData(String date, String credit, String detail, String category, String location) {
+    public HouseHoldModel(String date, String credit, String detail, String category, String location) {
         this.date = date;
         this.credit = credit;
         this.detail = detail;
@@ -34,26 +38,14 @@ public class CalendarListData {
 
     }
 
-    //문자를 받아오면 저장 할 생성자
-    public CalendarListData(String credit, String detail, String category, String location) {
+    public HouseHoldModel(int no, String date, String credit, String detail, String category, String location) {
+        this.no = no;
+        this.date = date;
         this.credit = credit;
         this.detail = detail;
         this.category = category;
         this.location = location;
     }
-
-    public CalendarListData(String credit, String detail, String category) {
-        this.credit = credit;
-        this.detail = detail;
-        this.category = category;
-    }
-    public CalendarListData(int no,String credit, String detail, String category) {
-        this.no = no;
-        this.credit = credit;
-        this.detail = detail;
-        this.category = category;
-    }
-
 
     public int getNo() { return no; }
 

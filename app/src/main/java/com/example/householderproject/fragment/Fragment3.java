@@ -20,19 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.householderproject.MainActivity;
 import com.example.householderproject.R;
 import com.example.householderproject.adapter.RecyclerViewAdapter;
-import com.example.householderproject.model.RecyclerViewData;
+import com.example.householderproject.model.HouseHoldModel;
 import com.example.householderproject.util.DBHelper;
-import com.github.mikephil.charting.charts.BarChart;
 
-import net.daum.android.map.MapView;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Fragment3 extends Fragment implements DatePicker.OnDateChangedListener {
 
-    private ArrayList<RecyclerViewData> list = new ArrayList<>();
+    private ArrayList<HouseHoldModel> list = new ArrayList<>();
     private RecyclerViewAdapter recyclerViewAdapter;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -98,7 +94,7 @@ public class Fragment3 extends Fragment implements DatePicker.OnDateChangedListe
         list.removeAll(list);
         while(cursor.moveToNext()) {
 
-            list.add(new RecyclerViewData(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+            list.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
 
         }
 

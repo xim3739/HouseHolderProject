@@ -9,18 +9,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.householderproject.R;
-import com.example.householderproject.model.CalendarListData;
-
-import org.w3c.dom.Text;
+import com.example.householderproject.model.HouseHoldModel;
 
 import java.util.ArrayList;
 
 public class StaticsAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<CalendarListData> list;
+    ArrayList<HouseHoldModel> list;
 
-    public StaticsAdapter(Context context, ArrayList<CalendarListData> list) {
+    public StaticsAdapter(Context context, ArrayList<HouseHoldModel> list) {
         this.context = context;
         this.list = list;
     }

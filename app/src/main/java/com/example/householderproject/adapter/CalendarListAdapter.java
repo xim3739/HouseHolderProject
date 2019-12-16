@@ -2,45 +2,39 @@ package com.example.householderproject.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
-import com.daimajia.swipe.SwipeLayout;
 import com.example.householderproject.R;
 import com.example.householderproject.fragment.Fragment1;
-import com.example.householderproject.model.CalendarListData;
+import com.example.householderproject.model.HouseHoldModel;
 import com.example.householderproject.util.DBHelper;
 
 import java.util.ArrayList;
 
-import static com.example.householderproject.fragment.Fragment1.selectedposition;
+import static com.example.householderproject.fragment.Fragment1.selectedPosition;
 
 public class CalendarListAdapter extends BaseAdapter {
 
     // 레이아웃의 아이디를 가지고 인플레이터를 이용해서 객체만듬
     private LayoutInflater inflater;
     //데이터
-    private ArrayList<CalendarListData> list;
+    private ArrayList<HouseHoldModel> list;
     // 레이아웃의 아이디
     private int layoutID;
     //어뎁터가 어디서 사용될지 알아야 한다
@@ -49,7 +43,7 @@ public class CalendarListAdapter extends BaseAdapter {
     private boolean deleteFlag = false;
 
 
-    public CalendarListAdapter(ArrayList<CalendarListData> list, int layoutID, Context context) {
+    public CalendarListAdapter(ArrayList<HouseHoldModel> list, int layoutID, Context context) {
         this.list = list;
         this.layoutID = layoutID;
         this.context = context;
@@ -98,7 +92,7 @@ public class CalendarListAdapter extends BaseAdapter {
                 sqlDB.close();
 
                 //selectedposition = 그리드 뷰의 위치
-                Fragment1.gridViewClickEvent(Fragment1.sparent, selectedposition);
+                Fragment1.gridViewClickEvent(Fragment1.sParent, selectedPosition);
 
             }
         });
@@ -159,7 +153,7 @@ public class CalendarListAdapter extends BaseAdapter {
                                         + "',location = '" + editTextLocation.getText().toString() + "' WHERE id ="+list.get(position).getNo()+";");
                                 sqlDB.close();
                             }
-                            Fragment1.gridViewClickEvent(Fragment1.sparent, selectedposition);
+                            Fragment1.gridViewClickEvent(Fragment1.sParent, selectedPosition);
                         }
                     });
                     listViewDialog.setNegativeButton("취소", null);
