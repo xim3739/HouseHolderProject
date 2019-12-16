@@ -23,8 +23,6 @@ import com.example.householderproject.util.DBHelper;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.example.householderproject.MainActivity.myContext;
-
 public class SmsReceiver extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification_id";

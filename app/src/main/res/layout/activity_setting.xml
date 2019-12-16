@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center|left"
-                android:text="[ THEMA ]"
+                android:text="[ TEMA ]"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -104,24 +104,28 @@
 
 
                 <ImageButton
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_margin="10dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/thema_women" />
+                    android:src="@drawable/thema_women"/>
 
                 <ImageButton
-
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_margin="10dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/thema_cuple" />
 
                 <ImageButton
-
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_margin="10dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:src="@drawable/thema_men" />

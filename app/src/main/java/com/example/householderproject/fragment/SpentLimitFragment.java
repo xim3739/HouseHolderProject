@@ -1,8 +1,6 @@
 package com.example.householderproject.fragment;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,16 +13,14 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.householderproject.MainActivity;
 import com.example.householderproject.R;
 import com.example.householderproject.adapter.StaticsAdapter;
-import com.example.householderproject.model.CalendarListData;
+import com.example.householderproject.model.HouseHoldModel;
 import com.example.householderproject.util.DBHelper;
 
 import java.util.ArrayList;
@@ -47,9 +43,9 @@ public class SpentLimitFragment extends Fragment{
     private int yearOfNow = 0;
     private int monthOfNow = 0;
 
-    private ArrayList<CalendarListData> spentList = new ArrayList<>();
-    private ArrayList<CalendarListData> incomeList = new ArrayList<>();
-    private ArrayList<CalendarListData> incomeListForProgressBar = new ArrayList<>();
+    private ArrayList<HouseHoldModel> spentList = new ArrayList<>();
+    private ArrayList<HouseHoldModel> incomeList = new ArrayList<>();
+    private ArrayList<HouseHoldModel> incomeListForProgressBar = new ArrayList<>();
 
     private DBHelper dbHelper;
     private SQLiteDatabase sqLiteDatabase;
@@ -100,7 +96,7 @@ public class SpentLimitFragment extends Fragment{
 
                         spentList.removeAll(spentList);
                         while(cursor.moveToNext()) {
-                            spentList.add(new CalendarListData(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+                            spentList.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
                         }
 
                         int spentSum = 0;
@@ -117,8 +113,8 @@ public class SpentLimitFragment extends Fragment{
 
                         incomeList.removeAll(incomeList);
                         while(cursor.moveToNext()) {
-                            incomeListForProgressBar.add(new CalendarListData(cursor.getString(2)));
-                            incomeList.add(new CalendarListData(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+                            incomeListForProgressBar.add(new HouseHoldModel(cursor.getString(2)));
+                            incomeList.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
                         }
 
                         int incomeSum = 0;

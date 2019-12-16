@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.text.format.Time;
 import android.util.AttributeSet;
 import android.view.View;
@@ -15,14 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.householderproject.R;
-import com.example.householderproject.fragment.Fragment1;
-import com.example.householderproject.model.CalendarListData;
+import com.example.householderproject.model.HouseHoldModel;
 import com.example.householderproject.model.MonthItem;
 import com.example.householderproject.util.DBHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class MonthAdapter extends BaseAdapter {
 
@@ -37,7 +33,7 @@ public class MonthAdapter extends BaseAdapter {
     public static int curMonth;//현재 달력의 월
     public int lastDay;//현재년도 현재달 마지막일
     public int selectedPosition = -1;//명시적 초기값 = -1
-    public ArrayList<CalendarListData> list = new ArrayList<>();
+    public ArrayList<HouseHoldModel> list = new ArrayList<>();
     private int day;
     private int month;
     private int year;
@@ -88,37 +84,36 @@ public class MonthAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.calendar_inner_view_holder, null);
         }
-        TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
-        ImageView image1 = (ImageView) convertView.findViewById(R.id.image1);
+        TextView txtDate = convertView.findViewById(R.id.txtDate);
+        ImageView image1 = convertView.findViewById(R.id.image1);
 
         //현재 위치에 값이 없을때 이미지는 보여주지 않음 == 1~30,30을 표현 해주는 값
         if (items[position].getDayValue() == 0) {
+
             txtDate.setText("");
             image1.setVisibility(View.INVISIBLE);
+
         } else {
+
             DBHelper myDBHelper = new DBHelper(mContext);
             //쿼리문 실행
             SQLiteDatabase sqlDB = myDBHelper.getReadableDatabase();
             Cursor cursor;
             //날짜로 검색한 모든데이타(디비에 있는 데이타)를 가져온다
             cursor = sqlDB.rawQuery("SELECT * FROM calenderTBL WHERE date = '" + curYear + "" + (curMonth + 1) + "" + items[position].getDayValue() + "';", null);
-            /*while () {                 select * FROM calenderTBL WHERE date like'2019_12_18%';
-                String databaseDate = cursor.getColumnName(0);
-                String databaseCoinrdo = cursor.getColumnName(1);
-                String databaseCoinedttxt = cursor.getColumnName(2);
-                String databaseCoinfilter = cursor.getColumnName(3);
-                list.add(new MyList_Data(databaseDate,databaseCoinrdo,databaseCoinedttxt,databaseCoinfilter));
-            }*/
+
             //해당하는 날짜에 값이 생기면 이미지를 보여주는 여부
             if (cursor.getCount() != 0) {
                 image1.setVisibility(View.VISIBLE);
             } else {
                 image1.setVisibility(View.INVISIBLE);
             }
+
             cursor.close();
             sqlDB.close();
 
             txtDate.setText(String.valueOf(items[position].getDayValue()));
+
         }
 
         int columnIndex = position % 7;
