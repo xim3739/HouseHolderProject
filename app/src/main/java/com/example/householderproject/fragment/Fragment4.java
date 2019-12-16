@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-<<<<<<< HEAD
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.style.WrapTogetherSpan;
 import android.util.Log;
-=======
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -17,20 +16,18 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsManager;
->>>>>>> 14581289f1979f4798467bd72035fe83f903dc19
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-<<<<<<< HEAD
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-=======
 import android.widget.CompoundButton;
->>>>>>> 14581289f1979f4798467bd72035fe83f903dc19
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
@@ -41,31 +38,26 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.householderproject.R;
-<<<<<<< HEAD
 import com.example.householderproject.model.FlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-=======
 import com.example.householderproject.receiver.SmsReceiver;
->>>>>>> 14581289f1979f4798467bd72035fe83f903dc19
+import com.example.householderproject.util.DBHelper;
 
 public class Fragment4 extends Fragment implements View.OnClickListener {
     private View view;
-<<<<<<< HEAD
     private LinearLayout line1, line2, line3, line4;
     private ArrayList<String> list = new ArrayList<>();
-=======
-    private LinearLayout line1, line4;
     private ImageButton customDenseGreen, customPink, customGreen, customWhite, customBrightGreen, customDark, customGray;
     private Switch switchOnOff;
     public static boolean settingFlag = false;
->>>>>>> 14581289f1979f4798467bd72035fe83f903dc19
 
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.activity_setting, container, false);
 
         line1 = view.findViewById(R.id.line1);
@@ -83,7 +75,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
         line1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View dialogView = View.inflate(v.getContext(), R.layout.setting_category_dialog, null);
+                final View dialogView = View.inflate(v.getContext(), R.layout.setting_category_dialog, null);
                 final EditText editTextAdd = dialogView.findViewById(R.id.editTextAdd);
                 final Button btnAdd = dialogView.findViewById(R.id.btnAdd);
                 final Button btnEdit = dialogView.findViewById(R.id.btnEdit);
@@ -100,19 +92,23 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                             }
                         }
                         String stringAddButton = editTextAdd.getText().toString();
-                        connectButton.setWidth((int) (layoutButtonAdd.getWidth() / 4));
                         connectButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                        connectButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
                         connectButton.setText(stringAddButton);
                         FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(10, 10);
                         connectButton.setLayoutParams(params);
                         dialogflowLayout.addView(connectButton);
                         list.add(connectButton.getText().toString());
+
+
+
                     }
                 });
                 btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        editTextAdd.setText();
+
+
                     }
                 });
 
@@ -134,6 +130,26 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
             }
         });
 
+
+        line4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle("RESET");
+                alert.setMessage("정말 초기화를 하시겠습니까? \n초기화를 하면 모든 값들은 기본으로 설정됩니다");
+                alert.setPositiveButton("초기화", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
+
+            }
+        });
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
         // 테마색 변경을 위한 이벤트
         customDenseGreen.setOnClickListener(this);
         customPink.setOnClickListener(this);
@@ -142,15 +158,6 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
         customBrightGreen.setOnClickListener(this);
         customDark.setOnClickListener(this);
         customGray.setOnClickListener(this);
-        //
-
-
-        line4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         return view;
     }
