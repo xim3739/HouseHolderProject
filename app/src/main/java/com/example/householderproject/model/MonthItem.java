@@ -5,9 +5,8 @@ public class MonthItem {
     private int dayValue;
     private int monthValue;
 
-    public MonthItem(int dayValue, int monthValue) {
+    public MonthItem(int dayValue) {
         this.dayValue = dayValue;
-        this.monthValue = monthValue;
     }
 
     public int getMonthValue() {
@@ -16,13 +15,6 @@ public class MonthItem {
 
     public void setMonthValue(int monthValue) {
         this.monthValue = monthValue;
-    }
-
-    public MonthItem() {
-    }
-
-    public MonthItem(int dayValue) {
-        this.dayValue = dayValue;
     }
 
     public int getDayValue() {

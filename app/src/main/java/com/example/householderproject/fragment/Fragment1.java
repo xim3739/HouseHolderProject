@@ -4,15 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -29,16 +25,11 @@ import androidx.fragment.app.Fragment;
 import com.example.householderproject.R;
 import com.example.householderproject.adapter.CalendarListAdapter;
 import com.example.householderproject.adapter.MonthAdapter;
-import com.example.householderproject.calendar.MonthItemView;
-import com.example.householderproject.model.CalendarListData;
+import com.example.householderproject.model.HouseHoldModel;
 import com.example.householderproject.model.MonthItem;
 import com.example.householderproject.util.DBHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import static com.example.householderproject.MainActivity.myContext;
 
@@ -57,16 +48,16 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     private Spinner spinnerFilter;
     private RadioButton radioButtonPlus;
     private RadioButton radioButtonMinus;
-    public static int selectedposition;
+    public static int selectedPosition;
 
     public static CalendarListAdapter calendarListAdapter;
-    private static ArrayList<CalendarListData> calendarList = new ArrayList<>();
+    private static ArrayList<HouseHoldModel> calendarList = new ArrayList<>();
     private static MonthAdapter monthAdapter;
 
     public static SQLiteDatabase sqlDB;
     public static DBHelper dbHelper;
 
-    public static AdapterView<?> sparent;
+    public static AdapterView<?> sParent;
 
     @Nullable
     @Override
@@ -84,7 +75,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
 
         //1.어뎁터를 생성
-        monthAdapter = new MonthAdapter(myContext, selectedposition);
+        monthAdapter = new MonthAdapter(myContext, selectedPosition);
         gridViewCalendar.setAdapter(monthAdapter);
         setYearMonth();
 
@@ -101,7 +92,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         return view;
 
     }
-
 
     // 클릭 이벤트
     @Override
@@ -124,15 +114,16 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                 calendarListAdapter.notifyDataSetChanged();
                 setYearMonth();
                 break;
+
         }
 
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        sparent = parent;
-        gridViewClickEvent(sparent, position);
 
+        sParent = parent;
+        gridViewClickEvent(sParent, position);
 
     }
 
@@ -143,7 +134,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         //어뎁터에 있는 위치의 값을 가져와 현재 위치에 넣어준다
         monthAdapter.setSelectedPosition(position);
         monthAdapter.notifyDataSetChanged();
-        selectedposition = position;
+        selectedPosition = position;
 
         if (curItem.getDayValue() != 0) {
 
@@ -159,12 +150,12 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
             while (cursor.moveToNext()) {
 
                 int getNo = cursor.getInt(0);
-                String getdate = cursor.getString(1);
+                String getDate = cursor.getString(1);
                 String getCredit = cursor.getString(2);
                 String getDetail = cursor.getString(3);
                 String getCategory = cursor.getString(4);
                 String getLocation = cursor.getString(5);
-                calendarList.add(new CalendarListData(getNo,getdate, getCredit, getDetail, getCategory,getLocation));
+                calendarList.add(new HouseHoldModel(getNo, getDate, getCredit, getDetail, getCategory, getLocation));
 
             }
 
@@ -180,7 +171,9 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, long id) {
 
         switch (parent.getId()) {
+
             case R.id.gvCalender:
+
                 MonthItem curItem1 = (MonthItem) monthAdapter.getItem(position);
 
                 currentDate = monthAdapter.curYear + "/" + (monthAdapter.curMonth + 1);
@@ -203,7 +196,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                         String getDetail = cursor.getString(3);
                         String getCategory = cursor.getString(4);
 
-                        calendarList.add(new CalendarListData(getNo, getCredit, getDetail, getCategory));
+                        calendarList.add(new HouseHoldModel(getNo, getCredit, getDetail, getCategory));
 
                     }
 
@@ -212,8 +205,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                     sqlDB.close();
 
                 }
-
-                selectFromDatabase(curItem1, position);
 
                 View dialogView = View.inflate(view.getContext(), R.layout.calendar_input_data_dialog, null);
 
@@ -241,6 +232,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                     }
 
                 });
+
                 dialog.setView(dialogView);
                 dialog.setPositiveButton("저장", new DialogInterface.OnClickListener() {
 
@@ -271,10 +263,8 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                 dialog.show();
                 break;
         }
-        return false;
-    }
 
-    private void selectFromDatabase(MonthItem curItem1, int position) {
+        return false;
     }
 
     // 월 표시 텍스트 설정
@@ -296,7 +286,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
         sqlDB.close();
 
-        calendarList.add(new CalendarListData(editTextCredit, radioButtonMinus, spinnerFilter,editTextLocation));
+        calendarList.add(new HouseHoldModel(editTextCredit, radioButtonMinus, spinnerFilter,editTextLocation));
         monthAdapter.notifyDataSetChanged();
 
         Toast.makeText(context, str + "(으)로 " + editTextCredit + "의 지출이 발생하였습니다", Toast.LENGTH_LONG).show();
@@ -314,7 +304,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
         sqlDB.close();
 
-        calendarList.add(new CalendarListData(editTextCredit, radioButtonPlus, spinnerFilter,editTextLocation));
+        calendarList.add(new HouseHoldModel(editTextCredit, radioButtonPlus, spinnerFilter,editTextLocation));
         monthAdapter.notifyDataSetChanged();
 
         Toast.makeText(context, str + "(으)로 " + editTextCredit + "의 수입이 발생하였습니다", Toast.LENGTH_LONG).show();

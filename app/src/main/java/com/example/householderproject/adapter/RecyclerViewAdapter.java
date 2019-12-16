@@ -14,12 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.householderproject.MainActivity;
 import com.example.householderproject.R;
 import com.example.householderproject.intentview.MapViewActivity;
-import com.example.householderproject.model.RecyclerViewData;
-
-import net.daum.mf.map.api.MapView;
+import com.example.householderproject.model.HouseHoldModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,14 +33,14 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
 
-    private ArrayList<RecyclerViewData> list;
+    private ArrayList<HouseHoldModel> list;
     private int layout;
     private String location;
     private Context context;
     private MapTask mapTask;
 
 
-    public RecyclerViewAdapter(ArrayList<RecyclerViewData> list, int layout) {
+    public RecyclerViewAdapter(ArrayList<HouseHoldModel> list, int layout) {
 
         this.list = list;
         this.layout = layout;

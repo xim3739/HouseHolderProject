@@ -22,7 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.householderproject.R;
 import com.example.householderproject.adapter.StaticsAdapter;
-import com.example.householderproject.model.CalendarListData;
+import com.example.householderproject.model.HouseHoldModel;
 import com.example.householderproject.util.DBHelper;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -52,7 +52,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     private PieChart pieChart;
     private ListView listView;
 
-    private ArrayList<CalendarListData> listViewData = new ArrayList<>();
+    private ArrayList<HouseHoldModel> listViewData = new ArrayList<>();
 
     private Description description = null;
 
@@ -160,7 +160,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
         listViewData.removeAll(listViewData);
 
         while(cursor.moveToNext()) {
-            listViewData.add(new CalendarListData(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+            listViewData.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
 
         }
         cursor.close();
@@ -188,7 +188,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
         listViewData.removeAll(listViewData);
 
         while(cursor.moveToNext()) {
-            listViewData.add(new CalendarListData(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+            listViewData.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
 
         }
         cursor.close();
@@ -258,7 +258,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
      * 기능 작업을 하는 메소드
      *
      */
-    private void setPieChart(ArrayList<CalendarListData> listViewData) {
+    private void setPieChart(ArrayList<HouseHoldModel> listViewData) {
 
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
