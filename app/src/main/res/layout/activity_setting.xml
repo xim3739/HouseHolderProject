@@ -51,7 +51,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -105,38 +104,76 @@
 
 
                 <ImageButton
+                    android:id="@+id/customDenseGreen"
                     android:layout_margin="10dp"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:background="@color/customDenseGreen"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/thema_women"/>
+                    />
 
                 <ImageButton
+                    android:id="@+id/customPink"
                     android:layout_margin="10dp"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:background="@color/customPink"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/thema_cuple" />
+                   />
 
                 <ImageButton
+                    android:id="@+id/customGreen"
                     android:layout_margin="10dp"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:background="@color/customGreen"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/thema_men" />
+                     />
+                <ImageButton
+                    android:id="@+id/customWhite"
+                    android:layout_margin="10dp"
+                    android:background="@color/customWhite"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    />
+                <ImageButton
+                    android:id="@+id/customBrightGreen"
+                    android:layout_margin="10dp"
+                    android:background="@color/customBrightGreen"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    />
+                <ImageButton
+                    android:id="@+id/customDark"
+                    android:layout_margin="10dp"
+                    android:background="@color/customDark"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    />
+                <ImageButton
+                    android:id="@+id/customGray"
+                    android:layout_margin="10dp"
+                    android:background="@color/customGray"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    />
 
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/line3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -159,6 +196,7 @@
             android:orientation="vertical">
 
             <Switch
+                android:id="@+id/switchOnOff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

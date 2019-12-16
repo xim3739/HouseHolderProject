@@ -251,6 +251,10 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                         } else if (radioButtonMinus.isChecked() && !(spinnerFilter.getSelectedItem().toString().equals("필터를 설정해 주세요")) &&
                                 !(editTextCredit.getText().toString().equals(""))) {
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 14581289f1979f4798467bd72035fe83f903dc19
                             insertMinusDataBase(view.getContext(), currentDate, editTextCredit.getText().toString(), radioButtonMinus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
 
                             insertMinusDataBase(view.getContext(), currentDate, editTextCredit.getText().toString(),

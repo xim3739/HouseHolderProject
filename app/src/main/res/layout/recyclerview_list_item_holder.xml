@@ -21,7 +21,8 @@
         android:textSize="20sp"
         android:hint="category"
         android:gravity="center"
-        android:layout_weight="0.8" />
+        android:layout_weight="0.8"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/textViewCredit"
@@ -30,7 +31,8 @@
         android:textSize="20sp"
         android:hint="credit"
         android:gravity="center"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:ellipsize="end"/>
 
     <TextView
         android:id="@+id/textViewLocation"

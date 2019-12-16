@@ -22,5 +22,5 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS calenderTBL");
         onCreate(db);
     }
-    
+
 }
