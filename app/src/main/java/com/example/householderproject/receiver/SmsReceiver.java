@@ -23,6 +23,8 @@ import com.example.householderproject.util.DBHelper;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.householderproject.fragment.Fragment4.settingFlag;
+
 public class SmsReceiver extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification_id";
@@ -33,10 +35,13 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
+        if(!settingFlag) {
+            return;
+        }
         Bundle bundle = intent.getExtras();
         SmsMessage[] messages = parseSmsMessage(bundle);
 
-        if(messages.length == 0) {
+        if (messages.length == 0) {
 
             return;
 
@@ -52,11 +57,11 @@ public class SmsReceiver extends BroadcastReceiver {
         String location = checkSMSLocation(contents);
         String credit = checkSMSCredit(contents);
 
-        if(!(location.equals("") && credit.equals(""))) {
+        if (!(location.equals("") && credit.equals(""))) {
 
             DBHelper dbHelper = new DBHelper(context);
             SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-            sqLiteDatabase.execSQL("INSERT INTO calenderTBL VALUES (null,'" + receivedDate + "' , '" + credit + "' , '지출', '카드', '" + location +"');");
+            sqLiteDatabase.execSQL("INSERT INTO calenderTBL VALUES (null,'" + receivedDate + "' , '" + credit + "' , '지출', '카드', '" + location + "');");
 
             sqLiteDatabase.close();
 
@@ -86,7 +91,7 @@ public class SmsReceiver extends BroadcastReceiver {
         builder.setContentText(contents);
         builder.setPriority(Notification.PRIORITY_MAX);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             int importance = NotificationManager.IMPORTANCE_HIGH;
 
@@ -107,11 +112,11 @@ public class SmsReceiver extends BroadcastReceiver {
 
         String resultCredit = "";
 
-        if(contents.contains("신한") && contents.contains("승인")) {
+        if (contents.contains("신한") && contents.contains("승인")) {
 
             String[] credit = contents.split("액\\)");
 
-            for(String checkedCredit : credit) {
+            for (String checkedCredit : credit) {
 
                 resultCredit = checkedCredit;
 
@@ -134,11 +139,11 @@ public class SmsReceiver extends BroadcastReceiver {
 
         String resultLocation = "";
 
-        if(contents.contains("신한") && contents.contains("승인")) {
+        if (contents.contains("신한") && contents.contains("승인")) {
 
             String[] location = contents.split("원 ");
 
-            for(String checkedLocation : location) {
+            for (String checkedLocation : location) {
 
                 resultLocation = checkedLocation;
 
@@ -147,7 +152,7 @@ public class SmsReceiver extends BroadcastReceiver {
             int index = resultLocation.indexOf("[");
             resultLocation = resultLocation.substring(0, index);
 
-        }else {
+        } else {
 
             return resultLocation;
 
@@ -163,16 +168,16 @@ public class SmsReceiver extends BroadcastReceiver {
 
         SmsMessage[] messages = new SmsMessage[objects.length];
 
-        for(int i = 0; i < objects.length; i++) {
+        for (int i = 0; i < objects.length; i++) {
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
                 String format = bundle.getString("format");
-                messages[i] = SmsMessage.createFromPdu((byte[])objects[i], format);
+                messages[i] = SmsMessage.createFromPdu((byte[]) objects[i], format);
 
             } else {
 
-                messages[i] = SmsMessage.createFromPdu((byte[])objects[i]);
+                messages[i] = SmsMessage.createFromPdu((byte[]) objects[i]);
 
             }
 
@@ -181,5 +186,7 @@ public class SmsReceiver extends BroadcastReceiver {
         return messages;
 
     }
+
+
 
 }
