@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <Button
             android:id="@+id/btMonthReport"
@@ -22,16 +23,16 @@
             android:id="@+id/btYearReport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/all_seperation"
             android:layout_weight="1"
+            android:background="@drawable/all_seperation"
             android:text="연간보고서" />
 
         <Button
             android:id="@+id/btSpentLimit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/all_seperation"
             android:layout_weight="1"
+            android:background="@drawable/all_seperation"
             android:text="지출현황" />
 
     </LinearLayout>
@@ -40,9 +41,9 @@
         android:id="@+id/layoutDatePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <Button
             android:id="@+id/btYearAndMonthDatePicker"
@@ -56,18 +57,18 @@
             android:id="@+id/btYearDatePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/all_seperation"
             android:layout_weight="1"
+            android:background="@drawable/all_seperation"
             android:text="0000년"
             android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutSepndingIncome"
-        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <Button
             android:id="@+id/btSpend"
@@ -92,12 +93,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:background="#e1e9ef"></com.github.mikephil.charting.charts.PieChart>
-
 
         <ScrollView
             android:layout_width="match_parent"
@@ -106,9 +107,9 @@
 
             <ListView
                 android:id="@+id/listView"
-                android:padding="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></ListView>
+                android:layout_height="match_parent"
+                android:padding="5dp"></ListView>
         </ScrollView>
     </LinearLayout>
 
@@ -117,5 +118,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
+
 
 </LinearLayout>
