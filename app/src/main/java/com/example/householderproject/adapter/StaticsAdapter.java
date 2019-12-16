@@ -48,6 +48,7 @@ public class StaticsAdapter extends BaseAdapter {
         TextView textViewLocation;
         TextView textViewCredit;
 
+
         if(convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.fragment2_list_view_holder, null);
         }
