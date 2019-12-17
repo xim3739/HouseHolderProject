@@ -131,7 +131,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="사용내역"
+            android:text="[ 사 용 내 역 ]"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -163,7 +163,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="수입내역"
+                android:text="[ 수 입 내 역 ]"
                 android:textStyle="bold" />
         </LinearLayout>
 
