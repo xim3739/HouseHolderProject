@@ -100,14 +100,11 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                         dialogflowLayout.addView(connectButton);
                         list.add(connectButton.getText().toString());
 
-
-
                     }
                 });
                 btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
 
                     }
                 });
