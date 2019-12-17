@@ -1,8 +1,6 @@
 package com.example.householderproject.fragment;
 
 import android.app.DatePickerDialog;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -162,26 +160,13 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
 
     private void buttonEarnHandler() {
 
-        DBHelper dbHelper = new DBHelper(getContext());
-        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
-        Cursor cursor = null;
-
-
         if(monthOfNow == 0) {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "%' AND detail = '" + "수입" + "';", null);
+            listViewData = DBHelper.selectYearDateDatabase(listViewData, getContext(), yearOfNow, "수입");
+
+
         } else {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "" + monthOfNow + "%' AND detail = '" + "수입" + "';", null);
+            listViewData = DBHelper.selectYearAndMonthDateDatabase(listViewData, getContext(), yearOfNow, monthOfNow, "수입");
         }
-
-        listViewData.removeAll(listViewData);
-
-
-        while(cursor.moveToNext()) {
-            listViewData.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
-
-        }
-        cursor.close();
-        sqLiteDatabase.close();
 
         setPieChart(listViewData);
         description.setText(btEarn.getText().toString());
@@ -192,24 +177,12 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     }
 
     private void buttonSpendHandler() {
-        DBHelper dbHelper = new DBHelper(getContext());
-        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
-        Cursor cursor = null;
 
         if(monthOfNow == 0) {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "%' AND detail = '" + "지출" + "';", null);
+            listViewData = DBHelper.selectYearDateDatabase(listViewData, getContext(), yearOfNow, "지출");
         } else {
-            cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "" + monthOfNow + "%' AND detail = '" + "지출" + "';", null);
+            listViewData = DBHelper.selectYearAndMonthDateDatabase(listViewData, getContext(), yearOfNow, monthOfNow, "지출");
         }
-
-        listViewData.removeAll(listViewData);
-
-        while(cursor.moveToNext()) {
-            listViewData.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
-
-        }
-        cursor.close();
-        sqLiteDatabase.close();
 
         setPieChart(listViewData);
         description.setText(btSpend.getText().toString());

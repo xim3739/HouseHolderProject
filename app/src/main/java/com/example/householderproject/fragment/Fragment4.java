@@ -4,6 +4,11 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.text.style.WrapTogetherSpan;
+import android.util.Log;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -16,33 +21,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Switch;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.householderproject.R;
-import com.example.householderproject.receiver.SmsReceiver;
+import com.example.householderproject.model.FlowLayout;
+
+import java.util.ArrayList;
 
 public class Fragment4 extends Fragment implements View.OnClickListener {
     private View view;
     private LinearLayout line1, line4;
+    private ArrayList<String> list = new ArrayList<>();
     private ImageButton customDenseGreen, customPink, customGreen, customWhite, customBrightGreen, customDark, customGray;
-    private Switch switchOnOff;
     public static boolean settingFlag = false;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.activity_setting, container, false);
 
         line1 = view.findViewById(R.id.line1);
@@ -55,20 +64,53 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
         customBrightGreen = view.findViewById(R.id.customBrightGreen);
         customDark = view.findViewById(R.id.customDark);
         customGray = view.findViewById(R.id.customGray);
-        switchOnOff = view.findViewById(R.id.switchOnOff);
 
         line1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View dialogView = View.inflate(v.getContext(), R.layout.setting_category_dialog, null);
-
+                final View dialogView = View.inflate(v.getContext(), R.layout.setting_category_dialog, null);
                 final EditText editTextAdd = dialogView.findViewById(R.id.editTextAdd);
+                final Button btnAdd = dialogView.findViewById(R.id.btnAdd);
+                final Button btnEdit = dialogView.findViewById(R.id.btnEdit);
+                final Button btnDelete = dialogView.findViewById(R.id.btnDelete);
+                final FlowLayout dialogflowLayout = dialogView.findViewById(R.id.flowlayout);
+                final LinearLayout layoutButtonAdd = dialogView.findViewById(R.id.layoutButtonAdd);
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Button connectButton = new Button(getContext());
+                        for(int i= 0;i<list.size();i++){
+                            if (editTextAdd.getText().toString().equals(list.get(i))){
+                                return;
+                            }
+                        }
+                        String stringAddButton = editTextAdd.getText().toString();
+                        connectButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                        connectButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                        connectButton.setText(stringAddButton);
+                        FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(10, 10);
+                        connectButton.setLayoutParams(params);
+                        dialogflowLayout.addView(connectButton);
+                        list.add(connectButton.getText().toString());
+
+
+
+                    }
+                });
+                btnEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                    }
+                });
+
+
                 AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
                 dialog.setView(dialogView);
                 dialog.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
 
                     }
                 });
@@ -81,6 +123,26 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
             }
         });
 
+
+        line4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                alert.setTitle("RESET");
+                alert.setMessage("정말 초기화를 하시겠습니까? \n초기화를 하면 모든 값들은 기본으로 설정됩니다");
+                alert.setPositiveButton("초기화", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
+
+            }
+        });
+
+//------------------------------------------------------------------------------------------------------------------------------------------
+
         // 테마색 변경을 위한 이벤트
         customDenseGreen.setOnClickListener(this);
         customPink.setOnClickListener(this);
@@ -89,17 +151,6 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
         customBrightGreen.setOnClickListener(this);
         customDark.setOnClickListener(this);
         customGray.setOnClickListener(this);
-        //
-
-
-        line4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Animation animation = new AlphaAnimation(0.3f, 1.0f);
-                animation.setDuration(500);
-                v.startAnimation(animation);
-            }
-        });
 
         return view;
     }
@@ -176,57 +227,4 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
         }
     }
 
-  /*  //앱이 종료되어도 값을 저장할 부분
-    @Override
-    public void onResume() {
-        super.onResume();
-        //switch버튼, notification 알림 끄기
-        switchOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // The toggle is enabled -> work
-                if (isChecked) {
-                    settingFlag = true;
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("checked", true);
-                    editor.commit();
-                } else {// The toggle is disabled -> stop
-                    settingFlag = false;
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("checked", false);
-                    editor.commit();
-                }
-            }
-        });
-
-    }
-//그 저장한 부분을 부르는 곳
-    @Override
-    public void onStart() {
-        super.onStart();
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-        Boolean checked = sharedPreferences.getBoolean("checked", true);
-
-        if(checked){
-            settingFlag = true;
-        }else{
-            settingFlag = false;
-        }
-    }
-
-//값을 저장
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-        Boolean checked = sharedPreferences.getBoolean("checked", true);
-
-        if(checked){
-            settingFlag = true;
-        }else{
-            settingFlag = false;
-        }
-    }*/
 }

@@ -8,7 +8,6 @@ import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
@@ -59,11 +58,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
         if (!(location.equals("") && credit.equals(""))) {
 
-            DBHelper dbHelper = new DBHelper(context);
-            SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-            sqLiteDatabase.execSQL("INSERT INTO calenderTBL VALUES (null,'" + receivedDate + "' , '" + credit + "' , '지출', '카드', '" + location + "');");
-
-            sqLiteDatabase.close();
+            DBHelper.insertSpentData(context, receivedDate, credit, "지출", "카드", location);
 
         } else {
 
