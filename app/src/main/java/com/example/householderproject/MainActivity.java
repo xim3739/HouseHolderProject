@@ -68,10 +68,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        DBHelper dbHelper = new DBHelper(this);
-//        SQLiteDatabase sqLiteOpenHelper = dbHelper.getReadableDatabase();
-//        dbHelper.onUpgrade(sqLiteOpenHelper, 1, 2);
-
 //        getHash();
 
         permissionCheckMethod(this);

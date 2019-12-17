@@ -199,9 +199,16 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                 alert.setPositiveButton("초기화", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        DBHelper dbHelper = new DBHelper(getContext());
+                        SQLiteDatabase sqLiteOpenHelper = dbHelper.getReadableDatabase();
+                        dbHelper.onUpgrade(sqLiteOpenHelper, 1, 2);
+
                         dialog.dismiss();
+
                     }
+                    
                 });
+
                 alert.show();
 
             }
