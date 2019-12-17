@@ -206,7 +206,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                         dialog.dismiss();
 
                     }
-                    
+
                 });
 
                 alert.show();
