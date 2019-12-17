@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -78,6 +80,11 @@ public class SpentLimitFragment extends Fragment{
                 /******************
                  * datePickerDialog 창을 만든다.
                  */
+                //애니메이션효과
+                Animation animation = new AlphaAnimation(0.3f, 1.0f);
+                animation.setDuration(500);
+                v.startAnimation(animation);
+
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -111,17 +118,17 @@ public class SpentLimitFragment extends Fragment{
                         textViewSpent.setText(String.valueOf(spentSum));
 
                         try {
+
+
                             Log.d("spent", "ddd" + incomeSum);
                             float ratio;
                             ratio = (float) spentSum / incomeSum;
 
-                            Log.d("spent", String.valueOf(ratio));
                             int percent = (int) (ratio * 100);
 
                             progressBar.setMax(100);
                             progressBar.setScaleY(3f);
 
-                            Log.d("spent", String.valueOf(percent));
                             if(percent <= 100) {
                                 if(percent > 1) {
                                     progressBar.setProgress(percent);

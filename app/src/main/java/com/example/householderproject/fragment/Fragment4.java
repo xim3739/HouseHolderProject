@@ -67,7 +67,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
 
                 DBHelper.selectCategoryData(getContext());
 
-                for(int i = 0; i < categoryList.size(); i++) {
+                for (int i = 0; i < categoryList.size(); i++) {
 
                     final Button connectButton = new Button(getContext());
                     connectButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -97,9 +97,9 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
 
                         final Button connectButton = new Button(getContext());
 
-                        for(int i= 0;i<categoryList.size();i++){
+                        for (int i = 0; i < categoryList.size(); i++) {
 
-                            if (editTextAdd.getText().toString().equals(categoryList.get(i))){
+                            if (editTextAdd.getText().toString().equals(categoryList.get(i))) {
 
                                 return;
 
@@ -130,6 +130,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
 
                         });
 
+
                     }
 
                 });
@@ -145,37 +146,36 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                         SQLiteDatabase sqLiteDatabase1 = dbHelper1.getWritableDatabase();
                         sqLiteDatabase1.execSQL("DELETE FROM spinnerTBL WHERE spinnercategory = '" + editTextValue + "';");
                         sqLiteDatabase1.close();
+                    }
+                });
 
-                        DBHelper.selectCategoryData(getContext());
 
-                        dialogFlowLayout.removeAllViews();
+                DBHelper.selectCategoryData(getContext());
 
-                        for(int i = 0; i < categoryList.size(); i++) {
+                dialogFlowLayout.removeAllViews();
 
-                            final Button connectButton = new Button(getContext());
-                            connectButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                            connectButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-                            connectButton.setText(categoryList.get(i));
-                            FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(10, 10);
-                            connectButton.setLayoutParams(params);
-                            dialogFlowLayout.addView(connectButton);
+                for (int i = 0; i < categoryList.size(); i++) {
 
-                            connectButton.setOnClickListener(new View.OnClickListener() {
+                    final Button connectButton = new Button(getContext());
+                    connectButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                    connectButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                    connectButton.setText(categoryList.get(i));
+                    FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(10, 10);
+                    connectButton.setLayoutParams(params);
+                    dialogFlowLayout.addView(connectButton);
 
-                                @Override
-                                public void onClick(View v) {
+                    connectButton.setOnClickListener(new View.OnClickListener() {
 
-                                    editTextAdd.setText(connectButton.getText().toString());
+                        @Override
+                        public void onClick(View v) {
 
-                                }
-
-                            });
+                            editTextAdd.setText(connectButton.getText().toString());
 
                         }
 
-                    }
+                    });
 
-                });
+                }
 
                 AlertDialog.Builder dialog = new AlertDialog.Builder(view.getContext());
                 dialog.setView(dialogView);
@@ -183,11 +183,11 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                 dialog.setNegativeButton("취소", null);
                 dialog.show();
 
-               AnimationEffect(view);
-
+                AnimationEffect(view);
             }
 
         });
+
 
 
         line4.setOnClickListener(new View.OnClickListener() {

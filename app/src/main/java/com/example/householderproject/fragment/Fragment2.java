@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
@@ -55,6 +57,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     private Description description = null;
 
     private ArrayList<PieEntry> pieEntries;
+    private Animation animation=null;
 
 
     @Nullable
@@ -99,9 +102,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
 
         btYearAndMonthDatePicker.setOnClickListener(this);
         btYearDatePicker.setOnClickListener(this);
-
         btSpentLimit.setOnClickListener(this);
-
 
         return view;
 
@@ -112,27 +113,41 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btYearReport :
+                animationEffect(v);
                 buttonYearReportHandler();
                 break;
             case R.id.btMonthReport :
+                animationEffect(v);
                 buttonMonthReportHandler();
                 break;
             case R.id.btSpend :
+                animationEffect(v);
                 buttonSpendHandler();
                 break;
             case R.id.btEarn :
+                animationEffect(v);
                 buttonEarnHandler();
                 break;
             case R.id.btYearAndMonthDatePicker :
+                animationEffect(v);
                 buttonYearAndMonthDatePickerHandler();
                 break;
             case R.id.btYearDatePicker :
+                animationEffect(v);
                 buttonYearDatePickerHandler();
                 break;
             case R.id.btSpentLimit :
+                animationEffect(v);
                 buttonSpentLimitHandler();
                 break;
         }
+    }
+
+    //버튼 애니메이션 효과
+    private void animationEffect(View v) {
+        animation = new AlphaAnimation(0.3f, 1.0f);
+        animation.setDuration(500);
+        v.startAnimation(animation);
     }
 
     private void buttonYearReportHandler() {
@@ -147,6 +162,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
 
         if(monthOfNow == 0) {
             listViewData = DBHelper.selectYearDateDatabase(listViewData, getContext(), yearOfNow, "수입");
+
 
         } else {
             listViewData = DBHelper.selectYearAndMonthDateDatabase(listViewData, getContext(), yearOfNow, monthOfNow, "수입");
