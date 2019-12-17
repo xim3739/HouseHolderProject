@@ -91,6 +91,7 @@ public class CalendarListAdapter extends BaseAdapter {
 
             }
         });
+
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

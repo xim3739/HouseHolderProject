@@ -28,12 +28,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -41,16 +39,12 @@ import com.example.householderproject.R;
 import com.example.householderproject.model.FlowLayout;
 
 import java.util.ArrayList;
-import java.util.List;
-import com.example.householderproject.receiver.SmsReceiver;
-import com.example.householderproject.util.DBHelper;
 
 public class Fragment4 extends Fragment implements View.OnClickListener {
     private View view;
-    private LinearLayout line1, line2, line3, line4;
+    private LinearLayout line1, line4;
     private ArrayList<String> list = new ArrayList<>();
     private ImageButton customDenseGreen, customPink, customGreen, customWhite, customBrightGreen, customDark, customGray;
-    private Switch switchOnOff;
     public static boolean settingFlag = false;
 
     @Nullable
@@ -70,7 +64,6 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
         customBrightGreen = view.findViewById(R.id.customBrightGreen);
         customDark = view.findViewById(R.id.customDark);
         customGray = view.findViewById(R.id.customGray);
-        switchOnOff = view.findViewById(R.id.switchOnOff);
 
         line1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,57 +227,4 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
         }
     }
 
-  /*  //앱이 종료되어도 값을 저장할 부분
-    @Override
-    public void onResume() {
-        super.onResume();
-        //switch버튼, notification 알림 끄기
-        switchOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // The toggle is enabled -> work
-                if (isChecked) {
-                    settingFlag = true;
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("checked", true);
-                    editor.commit();
-                } else {// The toggle is disabled -> stop
-                    settingFlag = false;
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("checked", false);
-                    editor.commit();
-                }
-            }
-        });
-
-    }
-//그 저장한 부분을 부르는 곳
-    @Override
-    public void onStart() {
-        super.onStart();
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-        Boolean checked = sharedPreferences.getBoolean("checked", true);
-
-        if(checked){
-            settingFlag = true;
-        }else{
-            settingFlag = false;
-        }
-    }
-
-//값을 저장
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
-        Boolean checked = sharedPreferences.getBoolean("checked", true);
-
-        if(checked){
-            settingFlag = true;
-        }else{
-            settingFlag = false;
-        }
-    }*/
 }

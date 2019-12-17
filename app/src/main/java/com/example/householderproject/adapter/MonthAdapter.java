@@ -97,7 +97,7 @@ public class MonthAdapter extends BaseAdapter {
 
             String date = curYear + "" + (curMonth + 1) + "" + items[position].getDayValue();
 
-            DBHelper myDBHelper = DBHelper.getInstance(parent.getContext());
+            DBHelper myDBHelper = new DBHelper(parent.getContext());
             //쿼리문 실행
             SQLiteDatabase sqlDB = myDBHelper.getReadableDatabase();
             Cursor cursor;

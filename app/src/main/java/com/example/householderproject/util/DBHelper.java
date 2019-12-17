@@ -13,76 +13,12 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static DBHelper dbHelper = null;
-
-    private DBHelper(@Nullable Context context) {
+    public DBHelper(@Nullable Context context) {
 
         super(context,"calenderDB",null,1);
 
     }
 
-    public static DBHelper getInstance(Context context) {
-
-        if(dbHelper == null) {
-            dbHelper = new DBHelper(context);
-        }
-
-        return dbHelper;
-
-    }
-
-    public static ArrayList<HouseHoldModel> selectYearDateDatabase(ArrayList<HouseHoldModel> listViewData, Context context, int yearOfNow, String detail) {
-        DBHelper dbHelper = DBHelper.getInstance(context);
-        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "%' AND detail = '" + detail + "';", null);
-
-        listViewData.removeAll(listViewData);
-
-        while(cursor.moveToNext()) {
-
-            listViewData.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
-
-        }
-
-        cursor.close();
-        sqLiteDatabase.close();
-
-        return listViewData;
-    }
-
-    public static ArrayList<HouseHoldModel> selectYearAndMonthDateDatabase(ArrayList<HouseHoldModel> listViewData, Context context, int yearOfNow, int monthOfNow, String detail) {
-        DBHelper dbHelper = DBHelper.getInstance(context);
-        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "" + monthOfNow + "%' AND detail = '" + detail + "';", null);
-
-        listViewData.removeAll(listViewData);
-
-        while(cursor.moveToNext()) {
-
-            listViewData.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
-
-        }
-
-        cursor.close();
-        sqLiteDatabase.close();
-
-        return listViewData;
-    }
-
-    public static void updateFromNumberDatabase(Context context, String credit, String detail, String category, String location, int no) {
-        DBHelper myDBHelper = DBHelper.getInstance(context);
-        SQLiteDatabase sqlDB = myDBHelper.getWritableDatabase();
-        sqlDB.execSQL("UPDATE calenderTBL SET credit = '" + credit + "', detail = '" + detail + "',category = '" + category + "',location = '" + location + "' WHERE id ="+ no +";");
-        sqlDB.close();
-
-    }
-
-    public static void deleteFromDatabase(Context context, int no) {
-        DBHelper myDBHelper = DBHelper.getInstance(context);
-        SQLiteDatabase sqlDB = myDBHelper.getWritableDatabase();
-        sqlDB.execSQL("DELETE FROM calenderTBL WHERE id = " + no + ";");
-        sqlDB.close();
-    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -99,8 +35,70 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+
+    public static ArrayList<HouseHoldModel> selectYearDateDatabase(ArrayList<HouseHoldModel> listViewData, Context context, int yearOfNow, String detail) {
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "%' AND detail = '" + detail + "';", null);
+
+        listViewData.removeAll(listViewData);
+
+        while(cursor.moveToNext()) {
+
+            listViewData.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+
+        }
+
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return listViewData;
+
+    }
+
+    public static ArrayList<HouseHoldModel> selectYearAndMonthDateDatabase(ArrayList<HouseHoldModel> listViewData, Context context, int yearOfNow, int monthOfNow, String detail) {
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "" + monthOfNow + "%' AND detail = '" + detail + "';", null);
+
+        listViewData.removeAll(listViewData);
+
+        while(cursor.moveToNext()) {
+
+            listViewData.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
+
+        }
+
+        cursor.close();
+        sqLiteDatabase.close();
+
+        return listViewData;
+
+    }
+
+    public static void updateFromNumberDatabase(Context context, String credit, String detail, String category, String location, int no) {
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase sqlDB = dbHelper.getWritableDatabase();
+        sqlDB.execSQL("UPDATE calenderTBL SET credit = '" + credit + "', detail = '" + detail + "',category = '" + category + "',location = '" + location + "' WHERE id ="+ no +";");
+        sqlDB.close();
+
+    }
+
+    public static void deleteFromDatabase(Context context, int no) {
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase sqlDB = dbHelper.getWritableDatabase();
+        sqlDB.execSQL("DELETE FROM calenderTBL WHERE id = " + no + ";");
+        sqlDB.close();
+
+    }
+
     public static ArrayList<HouseHoldModel> selectDateFromDatabase(ArrayList<HouseHoldModel> calendarList, Context context, String currentDate) {
-        DBHelper dbHelper = DBHelper.getInstance(context);
+
+        DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
 
         Cursor cursor;
@@ -130,23 +128,27 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
     public static void insertIncomeData(Context context, String currentDate, String editTextCredit, String radioButtonPlus, String spinnerFilter, String editTextLocation) {
-        DBHelper dbHelper = DBHelper.getInstance(context);
+
+        DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
 
         sqLiteDatabase.execSQL("INSERT INTO calenderTBL VALUES(null,'" + currentDate + "','" + editTextCredit + "','"
                 + radioButtonPlus + "','" + spinnerFilter + "', '" + editTextLocation + "');");
 
         sqLiteDatabase.close();
+
     }
 
     public static void insertSpentData(Context context, String currentDate, String editTextCredit, String radioButtonMinus, String spinnerFilter, String editTextLocation) {
-        DBHelper dbHelper = DBHelper.getInstance(context);
+
+        DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
 
         sqLiteDatabase.execSQL("INSERT INTO calenderTBL VALUES(null,'" + currentDate + "','" + editTextCredit + "','"
                 + radioButtonMinus + "','" + spinnerFilter + "', '" + editTextLocation + "');");
 
         sqLiteDatabase.close();
+
     }
 
 

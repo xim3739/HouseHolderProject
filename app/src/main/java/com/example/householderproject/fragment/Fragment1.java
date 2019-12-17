@@ -125,7 +125,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     //그리드뷰 클릭시 처리하는 함수
     public static void gridViewClickEvent(View view, int position) {
         MonthItem curItem = (MonthItem) monthAdapter.getItem(position);
-        String currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1);
+        String currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1) + "" +monthAdapter.items[position].getDayValue();
         //어뎁터에 있는 위치의 값을 가져와 현재 위치에 넣어준다
         monthAdapter.setSelectedPosition(position);
         monthAdapter.notifyDataSetChanged();
@@ -201,20 +201,20 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
                             DBHelper.insertIncomeData(view.getContext(), currentDate, editTextCredit.getText().toString(),
                                     radioButtonPlus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
+                            calendarList = DBHelper.selectDateFromDatabase(calendarList, view.getContext(), currentDate);
 
                         } else if (radioButtonMinus.isChecked() && !(spinnerFilter.getSelectedItem().toString().equals("필터를 설정해 주세요")) &&
                                 !(editTextCredit.getText().toString().equals(""))) {
 
                             DBHelper.insertSpentData(view.getContext(), currentDate, editTextCredit.getText().toString(),
                                     radioButtonMinus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
+                            calendarList = DBHelper.selectDateFromDatabase(calendarList, view.getContext(), currentDate);
 
                         } else {
 
                             Toast.makeText(getContext(), "선택하지 않은 항목이 있습니다", Toast.LENGTH_LONG).show();
 
                         }
-
-                        calendarList = DBHelper.selectDateFromDatabase(calendarList, view.getContext(), currentDate);
 
                         calendarListAdapter.notifyDataSetChanged();
 
