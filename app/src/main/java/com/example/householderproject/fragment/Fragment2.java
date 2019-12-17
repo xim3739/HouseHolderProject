@@ -250,6 +250,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
             String spendCategory = listViewData.get(i).getCategory();
 
             spendMoney = spendMoney.replaceAll(",", "");
+            spendMoney = spendMoney.replaceAll("\n", "");
 
             Log.e("!!!!!!" , spendMoney + "||||" + spendCategory);
 

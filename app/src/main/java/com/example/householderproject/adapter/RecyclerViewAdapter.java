@@ -90,6 +90,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
+    /******************
+     * 맵 API 를 받아오는 AsyncTask 클래스
+     */
     public class MapTask extends AsyncTask<Void, Void, String> {
         String resultString = null;
         @Override

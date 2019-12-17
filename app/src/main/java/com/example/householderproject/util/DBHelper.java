@@ -11,6 +11,8 @@ import com.example.householderproject.model.HouseHoldModel;
 
 import java.util.ArrayList;
 
+import static com.example.householderproject.MainActivity.categoryList;
+
 public class DBHelper extends SQLiteOpenHelper {
 
     public DBHelper(@Nullable Context context) {
@@ -19,11 +21,41 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    public static void selectCategoryData(Context context) {
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM spinnerTBL;", null);
+
+        categoryList.removeAll(categoryList);
+
+        while(cursor.moveToNext()) {
+
+            categoryList.add(cursor.getString(0));
+
+        }
+
+        cursor.close();
+        sqLiteDatabase.close();
+
+    }
+
+    public static void insertCategoryData(Context context, String category) {
+
+        DBHelper dbHelper1 = new DBHelper(context);
+        SQLiteDatabase sqLiteDatabase = dbHelper1.getWritableDatabase();
+        sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + category + "');");
+        sqLiteDatabase.close();
+
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("CREATE TABLE calenderTBL(id INTEGER PRIMARY KEY AUTOINCREMENT , date CHAR(20), credit CHAR(10), detail CHAR(10), category CHAR(20), location CHAR(30));");
+        db.execSQL("CREATE TABLE spinnerTBL(spinnercategory CHAR(10) PRIMARY KEY);");
 
     }
 
@@ -31,11 +63,21 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS calenderTBL");
+        db.execSQL("DROP TABLE IF EXISTS spinnerTBL");
         onCreate(db);
 
     }
 
-
+    /************************
+     *
+     * 년도로 데이터를 검색해 온다.
+     *
+     * @param listViewData
+     * @param context
+     * @param yearOfNow
+     * @param detail
+     * @return ArrayList
+     */
     public static ArrayList<HouseHoldModel> selectYearDateDatabase(ArrayList<HouseHoldModel> listViewData, Context context, int yearOfNow, String detail) {
 
         DBHelper dbHelper = new DBHelper(context);
@@ -57,6 +99,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /*********************
+     *
+     * 년도와 월로 데이터를 검색해 온다.
+     *
+     * @param listViewData
+     * @param context
+     * @param yearOfNow
+     * @param monthOfNow
+     * @param detail
+     * @return ArrayList
+     */
     public static ArrayList<HouseHoldModel> selectYearAndMonthDateDatabase(ArrayList<HouseHoldModel> listViewData, Context context, int yearOfNow, int monthOfNow, String detail) {
 
         DBHelper dbHelper = new DBHelper(context);
@@ -78,6 +131,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /******************
+     *
+     * Primary Key 로 데이터를 수정한다.
+     *
+     * @param context
+     * @param credit
+     * @param detail
+     * @param category
+     * @param location
+     * @param no
+     */
     public static void updateFromNumberDatabase(Context context, String credit, String detail, String category, String location, int no) {
 
         DBHelper dbHelper = new DBHelper(context);
@@ -87,6 +151,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /*******************
+     *
+     * Primary Key 로 데이터를 삭제한다.
+     *
+     * @param context
+     * @param no
+     */
     public static void deleteFromDatabase(Context context, int no) {
 
         DBHelper dbHelper = new DBHelper(context);
@@ -96,6 +167,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /*********************
+     *
+     * 날짜로 데이터를 검색해 온다.
+     *
+     * @param calendarList
+     * @param context
+     * @param currentDate
+     * @return ArrayList
+     */
     public static ArrayList<HouseHoldModel> selectDateFromDatabase(ArrayList<HouseHoldModel> calendarList, Context context, String currentDate) {
 
         DBHelper dbHelper = new DBHelper(context);
@@ -126,7 +206,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-
+    /*******************
+     *
+     * 데이터를 입력한다.
+     *
+     * @param context
+     * @param currentDate
+     * @param editTextCredit
+     * @param radioButtonPlus
+     * @param spinnerFilter
+     * @param editTextLocation
+     */
     public static void insertIncomeData(Context context, String currentDate, String editTextCredit, String radioButtonPlus, String spinnerFilter, String editTextLocation) {
 
         DBHelper dbHelper = new DBHelper(context);
@@ -139,6 +229,17 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    /***********************
+     *
+     * 데이터를 입력한다.
+     *
+     * @param context
+     * @param currentDate
+     * @param editTextCredit
+     * @param radioButtonMinus
+     * @param spinnerFilter
+     * @param editTextLocation
+     */
     public static void insertSpentData(Context context, String currentDate, String editTextCredit, String radioButtonMinus, String spinnerFilter, String editTextLocation) {
 
         DBHelper dbHelper = new DBHelper(context);

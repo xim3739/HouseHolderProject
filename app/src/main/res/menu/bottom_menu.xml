@@ -4,22 +4,22 @@
         android:id="@+id/action_1"
         android:enabled="true"
         android:icon="@drawable/month1"
-        android:title="Month"
+        android:title="달력"
         android:checked="true"/>
     <item
         android:id="@+id/action_2"
         android:enabled="true"
         android:icon="@drawable/week1"
-        android:title="Week" />
+        android:title="통계" />
     <item
         android:id="@+id/action_3"
         android:enabled="true"
         android:icon="@drawable/day1"
-        android:title="Days" />
+        android:title="일별 보기" />
     <item
         android:id="@+id/action_4"
         android:enabled="true"
         android:icon="@drawable/setting1"
-        android:title="Setting" />
+        android:title="환경 설정" />
     />
 </menu>

@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -22,8 +23,6 @@ import com.example.householderproject.util.DBHelper;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.example.householderproject.fragment.Fragment4.settingFlag;
-
 public class SmsReceiver extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification_id";
@@ -34,9 +33,6 @@ public class SmsReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if(!settingFlag) {
-            return;
-        }
         Bundle bundle = intent.getExtras();
         SmsMessage[] messages = parseSmsMessage(bundle);
 
@@ -55,15 +51,15 @@ public class SmsReceiver extends BroadcastReceiver {
 
         String location = checkSMSLocation(contents);
         String credit = checkSMSCredit(contents);
+        String location1 = SAMSUNGcheckSMSLocation(contents);
+        String credit1 = SAMSUNGcheckSMSCredit(contents);
 
-        if (!(location.equals("") && credit.equals(""))) {
-
+        if(!(location.equals("") && credit.equals(""))) {
             DBHelper.insertSpentData(context, receivedDate, credit, "지출", "카드", location);
-
+        } else if(!(location1.equals("") && credit1.equals(""))) {
+            DBHelper.insertSpentData(context, receivedDate, credit1, "지출", "카드", location1);
         } else {
-
             return;
-
         }
 
         //TODO
@@ -103,6 +99,56 @@ public class SmsReceiver extends BroadcastReceiver {
 
     }
 
+    private String SAMSUNGcheckSMSCredit(String contents) {
+
+        String resultCredit = "";
+
+        if (contents.contains("삼성") && contents.contains("승인")) {
+
+            String[] credit = contents.split("미");
+
+            for (String checkedCredit : credit) {
+
+                resultCredit = checkedCredit;
+
+            }
+
+            int index = resultCredit.indexOf("원");
+            resultCredit = resultCredit.substring(0, index);
+
+        } else {
+
+            return resultCredit;
+
+        }
+
+        Log.e("!", resultCredit);
+
+        resultCredit = resultCredit.replaceAll("\n", "");
+
+        return resultCredit;
+
+    }
+
+    private String SAMSUNGcheckSMSLocation(String contents) {
+
+        String resultLocation = "";
+
+        if (contents.contains("삼성") && contents.contains("승인")) {
+
+            String[] location = contents.split("\n", 5);
+            String[] location1 = location[3].split(" ", 3);
+
+            return location1[2];
+
+        } else {
+
+            return resultLocation;
+
+        }
+
+    }
+
     private String checkSMSCredit(String contents) {
 
         String resultCredit = "";
@@ -125,6 +171,8 @@ public class SmsReceiver extends BroadcastReceiver {
             return resultCredit;
 
         }
+
+        resultCredit = resultCredit.replaceAll(",", "");
 
         return resultCredit;
 

@@ -75,7 +75,9 @@ public class SpentLimitFragment extends Fragment{
         btDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /******************
+                 * datePickerDialog 창을 만든다.
+                 */
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

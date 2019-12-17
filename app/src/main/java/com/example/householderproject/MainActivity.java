@@ -10,9 +10,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -29,6 +32,7 @@ import android.util.Base64;
 import android.content.Intent;
 
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Stack;
 
 import android.content.pm.Signature;
@@ -39,9 +43,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.householderproject.util.DBHelper;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int SMS_RECEIVE_PERMISSION = 1;
+    public static  ArrayList<String> categoryList = new ArrayList<>();
 
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
@@ -59,11 +67,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-/*
-        DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase sqLiteOpenHelper = dbHelper.getReadableDatabase();
-        dbHelper.onUpgrade(sqLiteOpenHelper, 1, 2);
-*/
+
+//        DBHelper dbHelper = new DBHelper(this);
+//        SQLiteDatabase sqLiteOpenHelper = dbHelper.getReadableDatabase();
+//        dbHelper.onUpgrade(sqLiteOpenHelper, 1, 2);
 
 //        getHash();
 

@@ -1,12 +1,13 @@
 package com.example.householderproject.fragment;
 
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -29,6 +30,7 @@ import com.example.householderproject.util.DBHelper;
 
 import java.util.ArrayList;
 
+import static com.example.householderproject.MainActivity.categoryList;
 import static com.example.householderproject.MainActivity.myContext;
 
 public class Fragment1 extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -50,8 +52,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     public static CalendarListAdapter calendarListAdapter;
     private static ArrayList<HouseHoldModel> calendarList = new ArrayList<>();
     private static MonthAdapter monthAdapter;
-
-    public static SQLiteDatabase sqlDB;
 
     public static AdapterView<?> sParent;
 
@@ -165,6 +165,12 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                 editTextCredit = dialogView.findViewById(R.id.edtLittle);
                 editTextLocation = dialogView.findViewById(R.id.editTextLocation);
                 spinnerFilter = dialogView.findViewById(R.id.spinnerFilter);
+
+                DBHelper.selectCategoryData(getContext());
+
+                Log.e("fragment1", categoryList.toString());
+                spinnerFilter.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_text_holder, categoryList));
+
                 radioButtonPlus = dialogView.findViewById(R.id.rdoPlus);
                 radioButtonMinus = dialogView.findViewById(R.id.rdoMinus);
                 final MonthItem currentItem = (MonthItem) monthAdapter.getItem(position);

@@ -10,13 +10,6 @@
         android:background="@drawable/all_seperation"
         android:gravity="center">
 
-        <ImageView
-            android:id="@+id/listViewImage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@mipmap/ic_launcher" />
-
         <TextView
             android:id="@+id/textViewCategory"
             android:layout_width="0dp"

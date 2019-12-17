@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.householderproject.R;
@@ -40,7 +39,6 @@ public class StaticsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView listViewImage;
         TextView textViewCategory;
         TextView textViewDate;
         TextView textViewLocation;
@@ -50,7 +48,6 @@ public class StaticsAdapter extends BaseAdapter {
         if(convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.fragment2_list_view_holder, null);
         }
-        listViewImage = convertView.findViewById(R.id.listViewImage);
         textViewCategory = convertView.findViewById(R.id.textViewCategory);
         textViewDate = convertView.findViewById(R.id.textViewDate);
         textViewLocation = convertView.findViewById(R.id.textViewLocation);
