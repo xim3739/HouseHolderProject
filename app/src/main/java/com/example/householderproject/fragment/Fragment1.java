@@ -1,8 +1,6 @@
 package com.example.householderproject.fragment;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -41,7 +39,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     private ListView listView;
     private View view;
     private String str;
-    private static String currentDate;
 
     private EditText editTextCredit;
     private EditText editTextLocation;
@@ -55,7 +52,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     private static MonthAdapter monthAdapter;
 
     public static SQLiteDatabase sqlDB;
-    public static DBHelper dbHelper;
 
     public static AdapterView<?> sParent;
 
@@ -83,11 +79,10 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         listView.setAdapter(calendarListAdapter);
 
         gridViewCalendar.setOnItemClickListener(this);
+        gridViewCalendar.setOnItemLongClickListener(this);
 
         btNext.setOnClickListener(this);
         btPrevious.setOnClickListener(this);
-
-        gridViewCalendar.setOnItemLongClickListener(this);
 
         return view;
 
@@ -130,7 +125,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     //그리드뷰 클릭시 처리하는 함수
     public static void gridViewClickEvent(View view, int position) {
         MonthItem curItem = (MonthItem) monthAdapter.getItem(position);
-        currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1);
+        String currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1) + "" +monthAdapter.items[position].getDayValue();
         //어뎁터에 있는 위치의 값을 가져와 현재 위치에 넣어준다
         monthAdapter.setSelectedPosition(position);
         monthAdapter.notifyDataSetChanged();
@@ -138,30 +133,9 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
         if (curItem.getDayValue() != 0) {
 
-            dbHelper = new DBHelper(myContext);
-            sqlDB = dbHelper.getReadableDatabase();
-
-            Cursor cursor;
-            cursor = sqlDB.rawQuery("SELECT * FROM calenderTBL WHERE date = '" + monthAdapter.curYear + ""
-                    + (monthAdapter.curMonth + 1) + "" + monthAdapter.items[position].getDayValue() + "';", null);
-
-            calendarList.removeAll(calendarList);
-
-            while (cursor.moveToNext()) {
-
-                int getNo = cursor.getInt(0);
-                String getDate = cursor.getString(1);
-                String getCredit = cursor.getString(2);
-                String getDetail = cursor.getString(3);
-                String getCategory = cursor.getString(4);
-                String getLocation = cursor.getString(5);
-                calendarList.add(new HouseHoldModel(getNo, getDate, getCredit, getDetail, getCategory, getLocation));
-
-            }
+            calendarList = DBHelper.selectDateFromDatabase(calendarList, view.getContext(), currentDate);
 
             calendarListAdapter.notifyDataSetChanged();
-            cursor.close();
-            sqlDB.close();
 
         }
 
@@ -176,33 +150,13 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
                 MonthItem curItem1 = (MonthItem) monthAdapter.getItem(position);
 
-                currentDate = monthAdapter.curYear + "/" + (monthAdapter.curMonth + 1);
+                String currentDate = monthAdapter.curYear + "" + (monthAdapter.curMonth + 1) + "" + monthAdapter.items[position].getDayValue();
 
                 if (curItem1.getDayValue() != 0) {
 
-                    dbHelper = new DBHelper(myContext);
-                    sqlDB = dbHelper.getReadableDatabase();
-
-                    Cursor cursor;
-                    cursor = sqlDB.rawQuery("SELECT * FROM calenderTBL WHERE date = '" + monthAdapter.curYear + ""
-                            + (monthAdapter.curMonth + 1) + "" + monthAdapter.items[position].getDayValue() + "';", null);
-
-                    calendarList.removeAll(calendarList);
-
-                    while (cursor.moveToNext()) {
-
-                        int getNo = cursor.getInt(0);
-                        String getCredit = cursor.getString(2);
-                        String getDetail = cursor.getString(3);
-                        String getCategory = cursor.getString(4);
-
-                        calendarList.add(new HouseHoldModel(getNo, getCredit, getDetail, getCategory));
-
-                    }
+                    calendarList = DBHelper.selectDateFromDatabase(calendarList, view.getContext(), currentDate);
 
                     calendarListAdapter.notifyDataSetChanged();
-                    cursor.close();
-                    sqlDB.close();
 
                 }
 
@@ -239,30 +193,34 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1) + currentItem.getDayValue();
+                        String currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1) + currentItem.getDayValue();
                         Toast.makeText(getContext(), currentDate, Toast.LENGTH_LONG).show();
 
                         if (radioButtonPlus.isChecked() && !(spinnerFilter.getSelectedItem().toString().equals("필터를 설정해 주세요")) &&
                                 !(editTextCredit.getText().toString().equals(""))) {
 
-                            insertPlusDataBase(view.getContext(), currentDate, editTextCredit.getText().toString(),
+                            DBHelper.insertIncomeData(view.getContext(), currentDate, editTextCredit.getText().toString(),
                                     radioButtonPlus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
+                            calendarList = DBHelper.selectDateFromDatabase(calendarList, view.getContext(), currentDate);
 
                         } else if (radioButtonMinus.isChecked() && !(spinnerFilter.getSelectedItem().toString().equals("필터를 설정해 주세요")) &&
                                 !(editTextCredit.getText().toString().equals(""))) {
 
-
-                            insertMinusDataBase(view.getContext(), currentDate, editTextCredit.getText().toString(), radioButtonMinus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
-
-                            insertMinusDataBase(view.getContext(), currentDate, editTextCredit.getText().toString(),
+                            DBHelper.insertSpentData(view.getContext(), currentDate, editTextCredit.getText().toString(),
                                     radioButtonMinus.getText().toString(), spinnerFilter.getSelectedItem().toString(), editTextLocation.getText().toString());
+                            calendarList = DBHelper.selectDateFromDatabase(calendarList, view.getContext(), currentDate);
 
                         } else {
+
                             Toast.makeText(getContext(), "선택하지 않은 항목이 있습니다", Toast.LENGTH_LONG).show();
+
                         }
+
                         calendarListAdapter.notifyDataSetChanged();
+
                     }
                 });
+
                 dialog.setNegativeButton("취소", null);
                 dialog.show();
                 break;
@@ -279,39 +237,4 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
 
     }
 
-    //DB 에 저장
-    private void insertMinusDataBase(Context context, String currentDate, String editTextCredit, String radioButtonMinus, String spinnerFilter, String editTextLocation) {
-
-        dbHelper = new DBHelper(context);
-        sqlDB = dbHelper.getWritableDatabase();
-
-        sqlDB.execSQL("INSERT INTO calenderTBL VALUES(null,'" + currentDate + "','" + editTextCredit + "','"
-                + radioButtonMinus + "','" + spinnerFilter + "', '" + editTextLocation + "');");
-
-        sqlDB.close();
-
-        calendarList.add(new HouseHoldModel(editTextCredit, radioButtonMinus, spinnerFilter,editTextLocation));
-        monthAdapter.notifyDataSetChanged();
-
-        Toast.makeText(context, str + "(으)로 " + editTextCredit + "원의 지출이 발생하였습니다", Toast.LENGTH_LONG).show();
-
-    }
-
-    //DB 에 저장
-    private void insertPlusDataBase(Context context, String currentDate, String editTextCredit, String radioButtonPlus, String spinnerFilter, String editTextLocation) {
-
-        dbHelper = new DBHelper(context);
-        sqlDB = dbHelper.getWritableDatabase();
-
-        sqlDB.execSQL("INSERT INTO calenderTBL VALUES(null,'" + currentDate + "','" + editTextCredit + "','"
-                + radioButtonPlus + "','" + spinnerFilter + "', '" + editTextLocation + "');");
-
-        sqlDB.close();
-
-        calendarList.add(new HouseHoldModel(editTextCredit, radioButtonPlus, spinnerFilter,editTextLocation));
-        monthAdapter.notifyDataSetChanged();
-
-        Toast.makeText(context, str + "(으)로 " + editTextCredit + "원의 수입이 발생하였습니다", Toast.LENGTH_LONG).show();
-
-    }
 }
