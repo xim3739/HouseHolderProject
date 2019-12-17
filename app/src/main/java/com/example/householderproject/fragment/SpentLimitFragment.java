@@ -1,8 +1,6 @@
 package com.example.householderproject.fragment;
 
 import android.app.DatePickerDialog;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,10 +45,6 @@ public class SpentLimitFragment extends Fragment{
     private ArrayList<HouseHoldModel> incomeList = new ArrayList<>();
     private ArrayList<HouseHoldModel> incomeListForProgressBar = new ArrayList<>();
 
-    private DBHelper dbHelper;
-    private SQLiteDatabase sqLiteDatabase;
-    private Cursor cursor;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -90,37 +84,22 @@ public class SpentLimitFragment extends Fragment{
 
                         btDatePicker.setText(yearOfNow + "년 " + monthOfNow + "월");
 
-                        dbHelper = new DBHelper(getContext());
-                        sqLiteDatabase = dbHelper.getReadableDatabase();
-                        cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "" + monthOfNow + "%' AND detail = '" + "지출" + "';", null);
-
-                        spentList.removeAll(spentList);
-                        while(cursor.moveToNext()) {
-                            spentList.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
-                        }
+                        spentList = DBHelper.selectYearAndMonthDateDatabase(spentList, getContext(), yearOfNow, monthOfNow, "지출");
 
                         int spentSum = 0;
                         for(int i = 0; i < spentList.size(); i++) {
                             String stringSpentSum = spentList.get(i).getCredit().replaceAll(",","");
                             spentSum = Integer.parseInt(stringSpentSum) + spentSum;
                         }
-                        StaticsAdapter spentstaticsAdapter = new StaticsAdapter(getContext(), spentList);
-                        listViewSpent.setAdapter(spentstaticsAdapter);
+                        StaticsAdapter spentStaticsAdapter = new StaticsAdapter(getContext(), spentList);
+                        listViewSpent.setAdapter(spentStaticsAdapter);
 
-                        cursor.close();
-
-                        cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + String.valueOf(yearOfNow) + String.valueOf(monthOfNow) + "%' AND detail = '" + "수입" + "';", null);
-
-                        incomeList.removeAll(incomeList);
-                        while(cursor.moveToNext()) {
-                            incomeListForProgressBar.add(new HouseHoldModel(cursor.getString(2)));
-                            incomeList.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
-                        }
+                        incomeList = DBHelper.selectYearAndMonthDateDatabase(incomeList, getContext(), yearOfNow, monthOfNow, "수입");
 
                         int incomeSum = 0;
                         for(int i = 0; i < incomeList.size(); i++) {
-                            String stringIncomSum = incomeList.get(i).getCredit().replaceAll(",", "");
-                            incomeSum = Integer.parseInt(stringIncomSum) + incomeSum;
+                            String stringIncomeSum = incomeList.get(i).getCredit().replaceAll(",", "");
+                            incomeSum = Integer.parseInt(stringIncomeSum) + incomeSum;
                         }
 
                         int remainMoney = incomeSum - spentSum;
@@ -130,7 +109,7 @@ public class SpentLimitFragment extends Fragment{
                         textViewSpent.setText(String.valueOf(spentSum));
 
                         try {
-                            Log.d("spent", "ddd"+String.valueOf(incomeSum));
+                            Log.d("spent", "ddd" + incomeSum);
                             float ratio;
                             ratio = (float) spentSum / incomeSum;
 
@@ -144,7 +123,7 @@ public class SpentLimitFragment extends Fragment{
                             if(percent <= 100) {
                                 if(percent > 1) {
                                     progressBar.setProgress(percent);
-                                    textViewPercentage.setText(String.valueOf(percent) + "% 사용중");
+                                    textViewPercentage.setText(percent + "% 사용중");
                                 } else {
                                     progressBar.setProgress(percent);
                                     textViewPercentage.setText("1% 이하 사용중");
@@ -162,8 +141,6 @@ public class SpentLimitFragment extends Fragment{
                         StaticsAdapter incomeStaticsAdapter1 = new StaticsAdapter(getContext(), incomeList);
                         listViewIncome.setAdapter(incomeStaticsAdapter1);
 
-                        cursor.close();
-                        sqLiteDatabase.close();
                     }
 
                 }, year, month - 1, day);

@@ -95,12 +95,14 @@ public class MonthAdapter extends BaseAdapter {
 
         } else {
 
-            DBHelper myDBHelper = new DBHelper(mContext);
+            String date = curYear + "" + (curMonth + 1) + "" + items[position].getDayValue();
+
+            DBHelper myDBHelper = DBHelper.getInstance(parent.getContext());
             //쿼리문 실행
             SQLiteDatabase sqlDB = myDBHelper.getReadableDatabase();
             Cursor cursor;
             //날짜로 검색한 모든데이타(디비에 있는 데이타)를 가져온다
-            cursor = sqlDB.rawQuery("SELECT * FROM calenderTBL WHERE date = '" + curYear + "" + (curMonth + 1) + "" + items[position].getDayValue() + "';", null);
+            cursor = sqlDB.rawQuery("SELECT * FROM calenderTBL WHERE date = '" + date + "';", null);
 
             //해당하는 날짜에 값이 생기면 이미지를 보여주는 여부
             if (cursor.getCount() != 0) {

@@ -2,7 +2,6 @@ package com.example.householderproject.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +38,6 @@ public class CalendarListAdapter extends BaseAdapter {
     private int layoutID;
     //어뎁터가 어디서 사용될지 알아야 한다
     private Context context;
-
-    private boolean deleteFlag = false;
 
 
     public CalendarListAdapter(ArrayList<HouseHoldModel> list, int layoutID, Context context) {
@@ -85,11 +82,9 @@ public class CalendarListAdapter extends BaseAdapter {
 
                 Toast.makeText(parent.getContext(), "삭제하였습니다" , Toast.LENGTH_LONG).show();
                 Log.e("!!!", "adapter" + list.get(position).getNo());
-                DBHelper myDBHelper = new DBHelper(parent.getContext());
-                SQLiteDatabase sqlDB = myDBHelper.getWritableDatabase();
+
                 //클릭된 위치에 데이타 값을 가져와서 해당 프라이머리키로 지운다
-                sqlDB.execSQL("DELETE FROM calenderTBL WHERE id = " + list.get(position).getNo() + ";");
-                sqlDB.close();
+                DBHelper.deleteFromDatabase(parent.getContext(), list.get(position).getNo());
 
                 //selectedposition = 그리드 뷰의 위치
                 Fragment1.gridViewClickEvent(Fragment1.sParent, selectedPosition);
@@ -137,21 +132,9 @@ public class CalendarListAdapter extends BaseAdapter {
 
                             if (radioButtonPlus.isChecked()) {
                                 /* UPDATE calenderTBL SET credit = '3000', detail = '공과금', category = '지출' WHERE id = 31;*/
-                                DBHelper myDBHelper = new DBHelper(parent.getContext());
-                                SQLiteDatabase sqlDB = myDBHelper.getWritableDatabase();
-                                sqlDB.execSQL("UPDATE calenderTBL SET credit = '" + editTextCredit.getText().toString()
-                                        + "', detail = '" + radioButtonPlus.getText().toString()
-                                        + "',category = '" + spinnerFilter.getSelectedItem().toString()
-                                        + "',location = '" + editTextLocation.getText().toString() + "' WHERE id ="+list.get(position).getNo()+";");
-                                sqlDB.close();
+                                DBHelper.updateFromNumberDatabase(parent.getContext(), editTextCredit.getText().toString(), radioButtonPlus.getText().toString(), spinnerFilter.getSelectedItem().toString(),editTextLocation.getText().toString(), list.get(position).getNo());
                             } else {
-                                DBHelper myDBHelper = new DBHelper(parent.getContext());
-                                SQLiteDatabase sqlDB = myDBHelper.getWritableDatabase();
-                                sqlDB.execSQL("UPDATE calenderTBL SET credit = '" + editTextCredit.getText().toString()
-                                        + "', detail = '" + radioButtonMinus.getText().toString()
-                                        + "',category = '" + spinnerFilter.getSelectedItem().toString()
-                                        + "',location = '" + editTextLocation.getText().toString() + "' WHERE id ="+list.get(position).getNo()+";");
-                                sqlDB.close();
+                                DBHelper.updateFromNumberDatabase(parent.getContext(), editTextCredit.getText().toString(), radioButtonMinus.getText().toString(), spinnerFilter.getSelectedItem().toString(),editTextLocation.getText().toString(), list.get(position).getNo());
                             }
                             Fragment1.gridViewClickEvent(Fragment1.sParent, selectedPosition);
                         }
@@ -162,13 +145,6 @@ public class CalendarListAdapter extends BaseAdapter {
                 return false;
             }
         });
-
-
-        /*if(listTextViewRdo.getText().toString().equals("수입")){
-            listImgView.setImageResource(R.mipmap.income);
-        }else if(listTextViewRdo.getText().toString().equals("지출")){
-            listImgView.setImageResource(R.mipmap.expenditure);
-        }*/
 
         if (list.get(position).getDetail().equals("수입")) {
             listImgView.setImageResource(R.mipmap.income);
@@ -191,6 +167,8 @@ public class CalendarListAdapter extends BaseAdapter {
                 v.startAnimation(animation);
             }
         });
+
         return convertView;
+
     }
 }

@@ -1,7 +1,5 @@
 package com.example.householderproject.fragment;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,18 +83,7 @@ public class Fragment3 extends Fragment implements DatePicker.OnDateChangedListe
 
     private void selectFromDatabase(String date) {
 
-        DBHelper dbHelper = new DBHelper(MainActivity.myContext);
-        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date = '" + date + "';", null);
-
-        Log.e("!!!", "onDateChanged");
-
-        list.removeAll(list);
-        while(cursor.moveToNext()) {
-
-            list.add(new HouseHoldModel(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5)));
-
-        }
+        list = DBHelper.selectDateFromDatabase(list, getContext(), date);
 
         recyclerViewAdapter.notifyDataSetChanged();
 
