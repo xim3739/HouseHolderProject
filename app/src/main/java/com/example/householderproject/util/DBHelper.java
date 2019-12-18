@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -17,7 +18,26 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public DBHelper(@Nullable Context context) {
 
-        super(context,"calenderDB",null,1);
+        super(context,"calenderDB.db",null,1);
+
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+
+        Log.e("database", "onCreate");
+
+        db.execSQL("CREATE TABLE spinnerTBL(spinnercategory CHAR(10) PRIMARY KEY);");
+        db.execSQL("CREATE TABLE calenderTBL(id INTEGER PRIMARY KEY AUTOINCREMENT , date CHAR(20), credit CHAR(10), detail CHAR(10), category CHAR(20), location CHAR(30));");
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        db.execSQL("DROP TABLE IF EXISTS calenderTBL");
+        db.execSQL("DROP TABLE IF EXISTS spinnerTBL");
+        onCreate(db);
 
     }
 
@@ -25,6 +45,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+
+        Log.e("database", "selectCategoryData");
 
         Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM spinnerTBL;", null);
 
@@ -47,24 +69,6 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = dbHelper1.getWritableDatabase();
         sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + category + "');");
         sqLiteDatabase.close();
-
-    }
-
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
-        db.execSQL("CREATE TABLE calenderTBL(id INTEGER PRIMARY KEY AUTOINCREMENT , date CHAR(20), credit CHAR(10), detail CHAR(10), category CHAR(20), location CHAR(30));");
-        db.execSQL("CREATE TABLE spinnerTBL(spinnercategory CHAR(10) PRIMARY KEY);");
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        db.execSQL("DROP TABLE IF EXISTS calenderTBL");
-        db.execSQL("DROP TABLE IF EXISTS spinnerTBL");
-        onCreate(db);
 
     }
 
