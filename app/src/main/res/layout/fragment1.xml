@@ -14,30 +14,27 @@
         android:orientation="horizontal">
 
         <TextView
-            style="@style/textStyleItalic"
             android:id="@+id/btnPrevious"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="  PREV  "
-            android:textSize="15dp" />
+            android:textSize="16sp" />
 
         <TextView
-            style="@style/textStyleItalic"
             android:id="@+id/tvYearMonth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:text="2019  11"
-            android:textSize="20dp" />
+            android:textSize="22sp" />
 
         <TextView
-            style="@style/textStyleItalic"
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="  NEXT  "
-            android:textSize="15dp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
     <LinearLayout
