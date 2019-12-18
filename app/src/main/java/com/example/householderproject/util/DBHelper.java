@@ -82,7 +82,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "%' AND detail = '" + detail + "';", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "____' AND detail = '" + detail + "';", null);
 
         listViewData.removeAll(listViewData);
 
@@ -114,7 +114,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "" + monthOfNow + "%' AND detail = '" + detail + "';", null);
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM calenderTBL WHERE date like '" + yearOfNow + "" + monthOfNow + "__' AND detail = '" + detail + "';", null);
 
         listViewData.removeAll(listViewData);
 

@@ -122,12 +122,14 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         sParent = parent;
+
         gridViewClickEvent(sParent, position);
 
     }
 
     //그리드뷰 클릭시 처리하는 함수
     public static void gridViewClickEvent(View view, int position) {
+
         MonthItem curItem = (MonthItem) monthAdapter.getItem(position);
         String currentDate = String.valueOf(monthAdapter.curYear) + (monthAdapter.curMonth + 1) + "" +monthAdapter.items[position].getDayValue();
         //어뎁터에 있는 위치의 값을 가져와 현재 위치에 넣어준다
@@ -227,12 +229,14 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
                         }
 
                         calendarListAdapter.notifyDataSetChanged();
+                        gridViewClickEvent(sParent , selectedPosition);
 
                     }
                 });
 
                 dialog.setNegativeButton("취소", null);
                 dialog.show();
+
                 break;
         }
 

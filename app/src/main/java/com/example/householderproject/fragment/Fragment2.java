@@ -151,19 +151,29 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     }
 
     private void buttonYearReportHandler() {
+
+        yearOfNow = Calendar.getInstance().get(Calendar.YEAR);
+        btYearDatePicker.setText(yearOfNow + "년");
+
         layoutVisibleSetting(View.GONE, View.VISIBLE, View.VISIBLE, View.VISIBLE, View.GONE, View.VISIBLE);
     }
 
     private void buttonMonthReportHandler() {
+
+        yearOfNow = Calendar.getInstance().get(Calendar.YEAR);
+        monthOfNow = Calendar.getInstance().get(Calendar.MONTH)+1;
+        btYearAndMonthDatePicker.setText(yearOfNow + "년 " + monthOfNow + "월");
+
         layoutVisibleSetting(View.GONE, View.VISIBLE, View.VISIBLE, View.VISIBLE, View.VISIBLE, View.GONE);
+
     }
 
     private void buttonEarnHandler() {
 
+        Log.e("Fragment2", yearOfNow + "수입" + monthOfNow);
+
         if(monthOfNow == 0) {
             listViewData = DBHelper.selectYearDateDatabase(listViewData, getContext(), yearOfNow, "수입");
-
-
         } else {
             listViewData = DBHelper.selectYearAndMonthDateDatabase(listViewData, getContext(), yearOfNow, monthOfNow, "수입");
         }
@@ -177,6 +187,8 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     }
 
     private void buttonSpendHandler() {
+
+        Log.e("Fragment2", yearOfNow + "지출" + monthOfNow);
 
         if(monthOfNow == 0) {
             listViewData = DBHelper.selectYearDateDatabase(listViewData, getContext(), yearOfNow, "지출");
@@ -193,6 +205,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     }
 
     private void buttonYearAndMonthDatePickerHandler() {
+
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -203,19 +216,20 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
                 yearOfNow = year;
                 monthOfNow = month + 1;
 
                 btYearAndMonthDatePicker.setText(yearOfNow + "년 " + monthOfNow + "월");
+
             }
         }, year, month, day);
+
         datePickerDialog.getDatePicker().findViewById(getResources().getIdentifier("day", "id", "android")).setVisibility(View.GONE);
         datePickerDialog.show();
     }
 
     private void buttonYearDatePickerHandler() {
-
-        monthOfNow = 0;
 
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -306,4 +320,5 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
         btYearDatePicker.setVisibility(gone1);
 
     }
+
 }
