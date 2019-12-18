@@ -77,7 +77,7 @@ public class SmsReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "notify_001");
 
         builder.setContentIntent(pendingIntent);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setSmallIcon(R.mipmap.main_app_icon);
         builder.setContentTitle(receivedDate + contents + "사용");
         builder.setContentText(contents);
         builder.setPriority(Notification.PRIORITY_MAX);

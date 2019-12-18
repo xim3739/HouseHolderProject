@@ -1,6 +1,8 @@
 package com.example.householderproject.fragment;
 
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -54,15 +57,30 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
     public static int selectedPosition;
 
     public static CalendarListAdapter calendarListAdapter;
-    private static ArrayList<HouseHoldModel> calendarList = new ArrayList<>();
+    public static ArrayList<HouseHoldModel> calendarList = new ArrayList<>();
     private static MonthAdapter monthAdapter;
 
     public static AdapterView<?> sParent;
 
+    @RequiresApi(api = Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable final ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        DBHelper.selectCategoryData(getContext());
+
+        if(categoryList.isEmpty()){
+
+            DBHelper dbHelper = new DBHelper(getContext());
+            SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "카드" + "');");
+            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "현금" + "');");
+            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "식비" + "');");
+            sqLiteDatabase.close();
+
+            DBHelper.selectCategoryData(getContext());
+        }
 
         view = inflater.inflate(R.layout.fragment1, container, false);
 
@@ -73,12 +91,12 @@ public class Fragment1 extends Fragment implements View.OnClickListener, Adapter
         gridViewCalendar = view.findViewById(R.id.gvCalender);
         textViewYear = view.findViewById(R.id.tvYearMonth);
 
-
         //1.어뎁터를 생성
         monthAdapter = new MonthAdapter(myContext, selectedPosition);
         gridViewCalendar.setAdapter(monthAdapter);
         setYearMonth();
 
+        calendarList.removeAll(calendarList);
         calendarListAdapter = new CalendarListAdapter(calendarList, R.layout.calendar_list_view_holder, myContext);
         listView.setAdapter(calendarListAdapter);
 

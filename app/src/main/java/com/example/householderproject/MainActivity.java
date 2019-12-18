@@ -64,20 +64,6 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase sqLiteDatabase1 = dbHelper1.getWritableDatabase();
         dbHelper1.onUpgrade(sqLiteDatabase1, 1, 2);
 */
-        DBHelper.selectCategoryData(this);
-
-        if(categoryList.isEmpty()){
-
-            DBHelper dbHelper = new DBHelper(this);
-            SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
-            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "카드" + "');");
-            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "현금" + "');");
-            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "식비" + "');");
-            sqLiteDatabase.close();
-
-            DBHelper.selectCategoryData(this);
-        }
-
         permissionCheckMethod(this);
 
         myContext = MainActivity.this;
