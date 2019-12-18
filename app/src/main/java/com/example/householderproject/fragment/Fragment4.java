@@ -218,6 +218,19 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
 
                         ((MainActivity)getActivity()).replaceFragment(Fragment1.newInstance());
 
+                        DBHelper.selectCategoryData(getContext());
+
+                        if(categoryList.isEmpty()){
+
+                            SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+                            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "카드" + "');");
+                            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "현금" + "');");
+                            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "식비" + "');");
+                            sqLiteDatabase.close();
+
+                            DBHelper.selectCategoryData(getContext());
+                        }
+
                         dialog.dismiss();
 
                     }

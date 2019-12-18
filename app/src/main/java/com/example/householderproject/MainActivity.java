@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
 //        getHash();
 
+       /* DBHelper dbHelper1 = new DBHelper(this);
+        SQLiteDatabase sqLiteDatabase1 = dbHelper1.getWritableDatabase();
+        dbHelper1.onUpgrade(sqLiteDatabase1, 1, 2);*/
+
         DBHelper.selectCategoryData(this);
 
         if(categoryList.isEmpty()){

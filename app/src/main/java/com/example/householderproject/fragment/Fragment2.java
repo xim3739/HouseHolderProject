@@ -153,6 +153,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
 
         yearOfNow = Calendar.getInstance().get(Calendar.YEAR);
         btYearDatePicker.setText(yearOfNow + "년");
+        monthOfNow = 0;
 
         layoutVisibleSetting(View.GONE, View.VISIBLE, View.VISIBLE, View.VISIBLE, View.GONE, View.VISIBLE);
     }
