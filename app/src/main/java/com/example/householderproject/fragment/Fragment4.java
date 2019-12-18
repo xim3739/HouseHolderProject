@@ -3,6 +3,7 @@ package com.example.householderproject.fragment;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.os.Build;
@@ -74,6 +75,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                     final Button connectButton = new Button(getContext());
                     connectButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                     connectButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                    connectButton.setBackgroundColor(Color.RED);
                     connectButton.setText(categoryList.get(i));
                     FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(10, 10);
                     connectButton.setLayoutParams(params);

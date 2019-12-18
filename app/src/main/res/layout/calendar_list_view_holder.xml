@@ -29,11 +29,11 @@
                 android:id="@+id/listTextViewRdo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="2dp"
                 android:layout_weight="5"
                 android:gravity="center"
                 android:hint="수입"
-                android:textSize="12sp" />
+                android:textSize="13.5sp" />
 
             <TextView
                 android:id="@+id/listTextViewCombo"
@@ -42,11 +42,14 @@
                 android:layout_weight="5"
                 android:gravity="center"
                 android:hint="필터"
-                android:textSize="12sp" />
+                android:textSize="13.5sp" />
 
         </LinearLayout>
 
         <TextView
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="#FFA82B"
             android:id="@+id/listTextViewEdt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,7 +60,7 @@
         <ImageButton
             android:background="@android:color/transparent"
             android:id="@+id/imgBtnTrash"
-            android:layout_width="30dp"
+            android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginRight="6dp"
