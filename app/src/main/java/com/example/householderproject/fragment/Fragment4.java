@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.householderproject.MainActivity;
 import com.example.householderproject.R;
 import com.example.householderproject.model.FlowLayout;
 import com.example.householderproject.util.DBHelper;
@@ -107,6 +109,14 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
 
                         }
 
+                        if(editTextAdd.getText().equals("")) {
+
+                            Toast.makeText(getContext(), "필터를 입력해 주세요.", Toast.LENGTH_LONG).show();
+
+                            return;
+
+                        }
+
                         String stringAddButton = editTextAdd.getText().toString();
                         connectButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                         connectButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -146,6 +156,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                         SQLiteDatabase sqLiteDatabase1 = dbHelper1.getWritableDatabase();
                         sqLiteDatabase1.execSQL("DELETE FROM spinnerTBL WHERE spinnercategory = '" + editTextValue + "';");
                         sqLiteDatabase1.close();
+
                     }
                 });
 
@@ -184,6 +195,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                 dialog.show();
 
                 AnimationEffect(view);
+
             }
 
         });
@@ -199,9 +211,12 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                 alert.setPositiveButton("초기화", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         DBHelper dbHelper = new DBHelper(getContext());
                         SQLiteDatabase sqLiteOpenHelper = dbHelper.getReadableDatabase();
                         dbHelper.onUpgrade(sqLiteOpenHelper, 1, 2);
+
+                        ((MainActivity)getActivity()).replaceFragment(Fragment1.newInstance());
 
                         dialog.dismiss();
 
@@ -212,6 +227,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                 alert.show();
 
             }
+
         });
 
         // 테마색 변경을 위한 이벤트
@@ -248,7 +264,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                 break;
             case R.id.customBrightGreen:
                 AnimationEffect(v);
-                Utils.setStatusBarColor(getActivity(), Utils.StatusBarColorType.CUSTOM_BRIGHTGREEN);
+                Utils.setStatusBarColor(getActivity(), Utils.StatusBarColorType.CUSTOM_BRIGHT_GREEN);
                 break;
             case R.id.customDark:
                 AnimationEffect(v);
@@ -278,7 +294,7 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
             CUSTOM_PINK(R.color.customPink),
             CUSTOM_GREEN(R.color.customGreen),
             CUSTOM_WHITE(R.color.customWhite),
-            CUSTOM_BRIGHTGREEN(R.color.customBrightGreen),
+            CUSTOM_BRIGHT_GREEN(R.color.customBrightGreen),
             CUSTOM_DARK(R.color.customDark),
             CUSTOM_GRAY(R.color.customGray);
 

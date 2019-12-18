@@ -42,7 +42,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     private int monthOfNow = 0;
 
     private FrameLayout frameLayout;
-    private LinearLayout layoutSepndingIncome;
+    private LinearLayout layoutSepntingIncome;
     private LinearLayout layoutChartAndListView;
     private LinearLayout layoutDatePicker;
     private Button btYearAndMonthDatePicker;
@@ -75,7 +75,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
         btYearAndMonthDatePicker = view.findViewById(R.id.btYearAndMonthDatePicker);
         btYearDatePicker = view.findViewById(R.id.btYearDatePicker);
 
-        layoutSepndingIncome = view.findViewById(R.id.layoutSepndingIncome);
+        layoutSepntingIncome = view.findViewById(R.id.layoutSepndingIncome);
         layoutChartAndListView = view.findViewById(R.id.layoutChartAndListView);
 
         btSpend = view.findViewById(R.id.btSpend);
@@ -198,6 +198,8 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        monthOfNow = month + 1;
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), android.R.style.Theme_Holo_Dialog, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -212,6 +214,9 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     }
 
     private void buttonYearDatePickerHandler() {
+
+        monthOfNow = 0;
+
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -223,6 +228,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
                 yearOfNow = year;
 
                 btYearDatePicker.setText(yearOfNow + "년");
+
             }
         }, year, month, day);
 
@@ -293,7 +299,7 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
     private void layoutVisibleSetting(int gone, int visible, int visible1, int visible2, int visible3, int gone1) {
 
         frameLayout.setVisibility(gone);
-        layoutSepndingIncome.setVisibility(visible);
+        layoutSepntingIncome.setVisibility(visible);
         layoutChartAndListView.setVisibility(visible1);
         layoutDatePicker.setVisibility(visible2);
         btYearAndMonthDatePicker.setVisibility(visible3);

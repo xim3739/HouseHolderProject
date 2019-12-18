@@ -5,19 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.householderproject.fragment.Fragment1;
@@ -27,24 +24,18 @@ import com.example.householderproject.fragment.Fragment3;
 import com.example.householderproject.fragment.Fragment4;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
 import android.util.Log;
 import android.util.Base64;
-import android.content.Intent;
-
 import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.Stack;
-
 import android.content.pm.Signature;
 import android.content.pm.PackageInfo;
+
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.householderproject.util.DBHelper;
-import com.google.android.material.snackbar.Snackbar;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     public static  ArrayList<String> categoryList = new ArrayList<>();
 
     private BottomNavigationView bottomNavigationView;
-    private FrameLayout frameLayout;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private Fragment1 fragment1;
@@ -70,13 +60,26 @@ public class MainActivity extends AppCompatActivity {
 
 //        getHash();
 
+        DBHelper.selectCategoryData(this);
+
+        if(categoryList.isEmpty()){
+
+            DBHelper dbHelper = new DBHelper(this);
+            SQLiteDatabase sqLiteDatabase = dbHelper.getWritableDatabase();
+            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "카드" + "');");
+            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "현금" + "');");
+            sqLiteDatabase.execSQL("INSERT INTO spinnerTBL VALUES('" + "식비" + "');");
+            sqLiteDatabase.close();
+
+            DBHelper.selectCategoryData(this);
+        }
+
         permissionCheckMethod(this);
 
         myContext = MainActivity.this;
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setItemIconTintList(null);
-        frameLayout = findViewById(R.id.frameLayout);
         fragment1 = new Fragment1();
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
@@ -190,9 +193,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void replaceFragment(Fragment fragment) {
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment).commit();
+
+    }
+
+
+    /***************
+     * API 를 위한 키 값 얻어오는 함수
+     */
 
 //    private void getHash() {
+
 //        try {
 //
 //            PackageInfo packageInfoCompat = getPackageManager().getPackageInfo("com.example.householderproject", PackageManager.GET_SIGNATURES);

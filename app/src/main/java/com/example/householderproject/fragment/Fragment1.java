@@ -35,6 +35,10 @@ import static com.example.householderproject.MainActivity.myContext;
 
 public class Fragment1 extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
+    public static Fragment1 newInstance() {
+        return new Fragment1();
+    }
+
     private TextView btPrevious, btNext, txtDate;
     public static GridView gridViewCalendar;
     private TextView textViewYear;
