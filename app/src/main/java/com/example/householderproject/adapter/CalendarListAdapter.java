@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,6 +27,7 @@ import com.example.householderproject.util.DBHelper;
 
 import java.util.ArrayList;
 
+import static com.example.householderproject.MainActivity.categoryList;
 import static com.example.householderproject.fragment.Fragment1.selectedPosition;
 
 public class CalendarListAdapter extends BaseAdapter {
@@ -104,6 +106,7 @@ public class CalendarListAdapter extends BaseAdapter {
                     final EditText editTextCredit = listViewDialogView.findViewById(R.id.edtLittle);
                     final EditText editTextLocation = listViewDialogView.findViewById(R.id.editTextLocation);
                     final Spinner spinnerFilter = listViewDialogView.findViewById(R.id.spinnerFilter);
+                    spinnerFilter.setAdapter(new ArrayAdapter<>(parent.getContext(), R.layout.spinner_text_holder, categoryList));
                     final RadioButton radioButtonPlus = listViewDialogView.findViewById(R.id.rdoPlus);
                     final RadioButton radioButtonMinus = listViewDialogView.findViewById(R.id.rdoMinus);
 

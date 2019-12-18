@@ -106,7 +106,6 @@ public class Fragment2 extends Fragment implements View.OnClickListener {
 
         return view;
 
-
     }
 
     @Override
