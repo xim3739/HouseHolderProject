@@ -26,6 +26,10 @@ import java.util.Calendar;
 
 public class Fragment3 extends Fragment implements DatePicker.OnDateChangedListener {
 
+    public static Fragment3 newInstance() {
+        return new Fragment3();
+    }
+
     private ArrayList<HouseHoldModel> list = new ArrayList<>();
     private RecyclerViewAdapter recyclerViewAdapter;
 
@@ -46,11 +50,7 @@ public class Fragment3 extends Fragment implements DatePicker.OnDateChangedListe
         int month = datePicker.getMonth();
         int day = datePicker.getDayOfMonth();
 
-        Log.e("!!!", year + "||" + month + "||" + day);
-
         String transDate = transformDate(year, month, day);
-
-        Log.e("!!!", transDate);
 
         recyclerViewAdapter = new RecyclerViewAdapter(list, R.layout.recyclerview_list_item_holder);
 
@@ -74,8 +74,6 @@ public class Fragment3 extends Fragment implements DatePicker.OnDateChangedListe
         String date = "";
 
         date = transformDate(year, monthOfYear, dayOfMonth);
-
-        Log.e("!!!", date);
 
         selectFromDatabase(date);
 

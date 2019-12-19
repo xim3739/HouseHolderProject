@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,8 +57,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         View view = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
         CustomViewHolder viewHolder = new CustomViewHolder(view);
 
-        Log.e("!!!", "onCreateViewHolder");
-
         return viewHolder;
 
     }
@@ -70,16 +69,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.textViewCredit.setText(list.get(position).getCredit());
         holder.textViewLocation.setText(list.get(position).getLocation());
 
-        location = list.get(position).getLocation();
-
         holder.itemView.setTag(position);
-
-        Log.e("!!!", "onBindViewHolder");
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
             public boolean onLongClick(View v) {
+
+                location = list.get(position).getLocation();
 
                 mapTask = new MapTask();
                 mapTask.execute();
@@ -97,8 +94,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         String resultString = null;
         @Override
         protected String doInBackground(Void... voids) {
-
-            Log.e("!!!", "doInBackground");
 
             String domain = "https://dapi.kakao.com/v2/local/search/keyword.json";
             Uri.Builder builder = Uri.parse(domain).buildUpon();
@@ -131,12 +126,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                 } else {
 
-                    Log.e("!!!", "" + connection.getResponseCode());
-
                 }
 
             }catch (IOException e) {
-                Log.e("!!!", "" + e.getMessage());
+
             }
 
             return resultString;
@@ -164,14 +157,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             String locationY = null;
 
             for(int i = 0; i < jsonArray.length(); i++) {
+
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
                 locationX = jsonObject.optString("x");
                 locationY = jsonObject.getString("y");
 
             }
-
-            Log.e("!!!", "handleSearchResult");
 
             Intent intent = new Intent(context, MapViewActivity.class);
             intent.putExtra("locationX", locationX);
@@ -181,8 +173,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             context.startActivity(intent);
 
         }catch (JSONException e) {
-
-            Log.e("!!!", e.getMessage());
 
         }
 
@@ -223,7 +213,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             this.textViewCategory = itemView.findViewById(R.id.textViewCategory);
             this.textViewCredit = itemView.findViewById(R.id.textViewCredit);
             this.textViewLocation = itemView.findViewById(R.id.textViewLocation);
-            Log.e("!!!", "CustomViewHolder");
+
         }
     }
 

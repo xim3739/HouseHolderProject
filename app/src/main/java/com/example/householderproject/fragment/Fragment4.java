@@ -77,7 +77,6 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                     final Button connectButton = new Button(getContext());
                     connectButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                     connectButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-                    connectButton.setBackgroundColor(Color.RED);
                     connectButton.setText(categoryList.get(i));
                     FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(10, 10);
                     connectButton.setLayoutParams(params);
@@ -160,6 +159,21 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
                         SQLiteDatabase sqLiteDatabase1 = dbHelper1.getWritableDatabase();
                         sqLiteDatabase1.execSQL("DELETE FROM spinnerTBL WHERE spinnercategory = '" + editTextValue + "';");
                         sqLiteDatabase1.close();
+
+                        dialogFlowLayout.removeAllViews();
+
+                        DBHelper.selectCategoryData(getContext());
+
+                        for (int i = 0; i < categoryList.size(); i++) {
+
+                            final Button connectButton = new Button(getContext());
+                            connectButton.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+                            connectButton.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+                            connectButton.setText(categoryList.get(i));
+                            FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(10, 10);
+                            connectButton.setLayoutParams(params);
+                            dialogFlowLayout.addView(connectButton);
+                        }
 
                     }
                 });
